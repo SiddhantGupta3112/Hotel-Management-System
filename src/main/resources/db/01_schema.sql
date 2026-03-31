@@ -1,0 +1,24 @@
+CREATE TABLE USERS (
+    user_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email VARCHAR2(100) UNIQUE NOT NULL,
+    password_hash VARCHAR2(255) NOT NULL,
+    name VARCHAR2(100) NOT NULL,
+    phone_country_code VARCHAR2(5),
+    phone_number VARCHAR2(15),
+    is_active NUMBER(1) DEFAULT 1 NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ROLES(
+    role_id   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    role_name VARCHAR2(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE USER_ROLES (
+    user_id NUMBER NOT NULL,
+    role_id NUMBER NOT NULL,
+    CONSTRAINT pk_user_roles PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_ur_user FOREIGN KEY (user_id) REFERENCES USERS(user_id),
+    CONSTRAINT fk_ur_role FOREIGN KEY (role_id) REFERENCES ROLES(role_id)
+);
+
