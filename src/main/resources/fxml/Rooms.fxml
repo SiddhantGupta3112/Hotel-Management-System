@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.RoomController"
+      styleClass="content-area" spacing="14" stylesheets="@../css/main.css">
+    <VBox.margin><Insets top="20" right="20" bottom="20" left="20"/></VBox.margin>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Rooms" styleClass="topbar-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalLabel"     styleClass="stat-label"/>
+        <Label fx:id="availableLabel" styleClass="stat-value-green"/>
+        <Button text="&#x21BB; Refresh" styleClass="logout-btn" onAction="#handleRefresh"/>
+    </HBox>
+
+    <!-- Add Room Form -->
+    <VBox styleClass="info-box" spacing="10">
+        <Label text="ADD NEW ROOM" styleClass="info-box-title"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="ROOM NUMBER" styleClass="field-label"/>
+                <TextField fx:id="roomNumberField" promptText="e.g. 205" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="ROOM TYPE" styleClass="field-label"/>
+                <ComboBox fx:id="roomTypeCombo" maxWidth="Infinity" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="FLOOR" styleClass="field-label"/>
+                <TextField fx:id="floorField" promptText="e.g. 2" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                <Label text=" " styleClass="field-label"/>
+                <Button text="Add Room" styleClass="primary-btn"
+                        onAction="#handleAddRoom" prefWidth="100"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="formErrorLabel" styleClass="error-label"
+               visible="false" managed="false" wrapText="true"/>
+    </VBox>
+
+    <!-- Action buttons -->
+    <HBox spacing="8">
+        <Button text="Change Status" styleClass="logout-btn" onAction="#handleChangeStatus"/>
+        <Button text="Delete Room"   styleClass="logout-btn" onAction="#handleDeleteRoom"/>
+    </HBox>
+
+    <!-- Rooms Table -->
+    <TableView fx:id="roomTable" VBox.vgrow="ALWAYS" styleClass="dark-table">
+        <columns>
+            <TableColumn fx:id="colRoomNo" text="Room No"     prefWidth="90"/>
+            <TableColumn fx:id="colType"   text="Type"        prefWidth="160"/>
+            <TableColumn fx:id="colFloor"  text="Floor"       prefWidth="70"/>
+            <TableColumn fx:id="colPrice"  text="Price/Night" prefWidth="120"/>
+            <TableColumn fx:id="colStatus" text="Status"      prefWidth="120"/>
+        </columns>
+        <placeholder>
+            <Label text="No rooms found" styleClass="muted-text"/>
+        </placeholder>
+    </TableView>
+</VBox>

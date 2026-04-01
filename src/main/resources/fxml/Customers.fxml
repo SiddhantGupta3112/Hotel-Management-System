@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.CustomerController"
+      styleClass="content-area" spacing="14" stylesheets="@../css/main.css">
+    <VBox.margin><Insets top="20" right="20" bottom="20" left="20"/></VBox.margin>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Customers" styleClass="topbar-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalLabel" styleClass="stat-label"/>
+        <Button text="&#x21BB; Refresh" styleClass="logout-btn" onAction="#handleRefresh"/>
+    </HBox>
+
+    <!-- Search -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Search by name or email..."
+                   styleClass="input-field" HBox.hgrow="ALWAYS"/>
+        <Button text="Search" styleClass="primary-btn" onAction="#handleSearch" prefWidth="90"/>
+    </HBox>
+
+    <!-- Add Customer Form -->
+    <VBox styleClass="info-box" spacing="10">
+        <Label text="ADD NEW CUSTOMER" styleClass="info-box-title"/>
+        <HBox spacing="10">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="FULL NAME" styleClass="field-label"/>
+                <TextField fx:id="nameField" promptText="John Smith" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="EMAIL" styleClass="field-label"/>
+                <TextField fx:id="emailField" promptText="john@email.com" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="PHONE" styleClass="field-label"/>
+                <TextField fx:id="phoneField" promptText="9999999999" styleClass="input-field"/>
+            </VBox>
+        </HBox>
+        <HBox spacing="10">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="ADDRESS" styleClass="field-label"/>
+                <TextField fx:id="addressField" promptText="City, State" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="ID PROOF" styleClass="field-label"/>
+                <TextField fx:id="idProofField" promptText="Aadhar / Passport no." styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="NATIONALITY" styleClass="field-label"/>
+                <TextField fx:id="nationalityField" promptText="Indian" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                <Label text=" " styleClass="field-label"/>
+                <Button text="Add Customer" styleClass="primary-btn"
+                        onAction="#handleAddCustomer" prefWidth="110"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="formErrorLabel" styleClass="error-label"
+               visible="false" managed="false" wrapText="true"/>
+    </VBox>
+
+    <!-- Customer Table -->
+    <TableView fx:id="customerTable" VBox.vgrow="ALWAYS" styleClass="dark-table">
+        <columns>
+            <TableColumn fx:id="colId"          text="#"           prefWidth="50"/>
+            <TableColumn fx:id="colName"        text="Name"        prefWidth="160"/>
+            <TableColumn fx:id="colEmail"       text="Email"       prefWidth="190"/>
+            <TableColumn fx:id="colNationality" text="Nationality" prefWidth="100"/>
+            <TableColumn fx:id="colIdProof"     text="ID Proof"    prefWidth="130"/>
+            <TableColumn fx:id="colPoints"      text="Points"      prefWidth="70"/>
+        </columns>
+        <placeholder>
+            <Label text="No customers found" styleClass="muted-text"/>
+        </placeholder>
+    </TableView>
+</VBox>

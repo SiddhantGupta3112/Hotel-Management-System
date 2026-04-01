@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.BookingController"
+      styleClass="content-area" spacing="14" stylesheets="@../css/main.css">
+    <VBox.margin><Insets top="20" right="20" bottom="20" left="20"/></VBox.margin>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Bookings" styleClass="topbar-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalLabel" styleClass="stat-label"/>
+        <Button text="&#x21BB; Refresh" styleClass="logout-btn" onAction="#handleRefresh"/>
+    </HBox>
+
+    <!-- New Booking Form -->
+    <VBox styleClass="info-box" spacing="10">
+        <Label text="NEW BOOKING" styleClass="info-box-title"/>
+        <HBox spacing="10">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="CUSTOMER" styleClass="field-label"/>
+                <ComboBox fx:id="customerCombo" maxWidth="Infinity" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="ROOM (AVAILABLE)" styleClass="field-label"/>
+                <ComboBox fx:id="roomCombo" maxWidth="Infinity" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="CHECK-IN DATE" styleClass="field-label"/>
+                <DatePicker fx:id="checkInPicker" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="CHECK-OUT DATE" styleClass="field-label"/>
+                <DatePicker fx:id="checkOutPicker" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                <Label text=" " styleClass="field-label"/>
+                <Button text="Book" styleClass="primary-btn"
+                        onAction="#handleNewBooking" prefWidth="80"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="formErrorLabel" styleClass="error-label"
+               visible="false" managed="false" wrapText="true"/>
+    </VBox>
+
+    <!-- Action buttons -->
+    <HBox spacing="8">
+        <Button text="Check In"  styleClass="primary-btn" onAction="#handleCheckIn"/>
+        <Button text="Check Out" styleClass="logout-btn"  onAction="#handleCheckOut"/>
+        <Button text="Cancel Booking" styleClass="logout-btn" onAction="#handleCancel"/>
+    </HBox>
+
+    <!-- Bookings Table -->
+    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" styleClass="dark-table">
+        <columns>
+            <TableColumn fx:id="colId"       text="#"          prefWidth="50"/>
+            <TableColumn fx:id="colGuest"    text="Guest"      prefWidth="150"/>
+            <TableColumn fx:id="colRoom"     text="Room"       prefWidth="60"/>
+            <TableColumn fx:id="colType"     text="Type"       prefWidth="130"/>
+            <TableColumn fx:id="colCheckIn"  text="Check In"   prefWidth="100"/>
+            <TableColumn fx:id="colCheckOut" text="Check Out"  prefWidth="100"/>
+            <TableColumn fx:id="colNights"   text="Nights"     prefWidth="80"/>
+            <TableColumn fx:id="colStatus"   text="Status"     prefWidth="110"/>
+        </columns>
+        <placeholder>
+            <Label text="No bookings yet" styleClass="muted-text"/>
+        </placeholder>
+    </TableView>
+</VBox>

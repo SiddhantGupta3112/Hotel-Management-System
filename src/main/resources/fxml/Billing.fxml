@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.BillingController"
+      styleClass="content-area" spacing="14" stylesheets="@../css/main.css">
+    <VBox.margin><Insets top="20" right="20" bottom="20" left="20"/></VBox.margin>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Billing" styleClass="topbar-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalInvoicesLabel" styleClass="stat-label"/>
+        <Button text="&#x21BB; Refresh" styleClass="logout-btn" onAction="#handleRefresh"/>
+    </HBox>
+
+    <!-- Payment Panel -->
+    <VBox styleClass="info-box" spacing="10">
+        <Label text="RECORD PAYMENT" styleClass="info-box-title"/>
+        <Label fx:id="selectedInfoLabel" styleClass="muted-text"
+               text="Select an invoice below to record a payment"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="PAYMENT METHOD" styleClass="field-label"/>
+                <ComboBox fx:id="payMethodCombo" maxWidth="Infinity" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="AMOUNT (&#x20B9;)" styleClass="field-label"/>
+                <TextField fx:id="payAmountField" promptText="0.00" styleClass="input-field"/>
+            </VBox>
+            <VBox spacing="4" alignment="BOTTOM_LEFT">
+                <Label text=" " styleClass="field-label"/>
+                <Button text="Record Payment" styleClass="primary-btn"
+                        onAction="#handleRecordPayment" prefWidth="130"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="formErrorLabel" styleClass="error-label"
+               visible="false" managed="false" wrapText="true"/>
+    </VBox>
+
+    <!-- Invoices Table -->
+    <TableView fx:id="invoiceTable" VBox.vgrow="ALWAYS" styleClass="dark-table">
+        <columns>
+            <TableColumn fx:id="colInvId"     text="Inv #"       prefWidth="60"/>
+            <TableColumn fx:id="colBookingId" text="Booking #"   prefWidth="80"/>
+            <TableColumn fx:id="colGuest"     text="Guest"       prefWidth="150"/>
+            <TableColumn fx:id="colRoom"      text="Room"        prefWidth="60"/>
+            <TableColumn fx:id="colSubtotal"  text="Subtotal"    prefWidth="110"/>
+            <TableColumn fx:id="colTax"       text="Tax (18%)"   prefWidth="100"/>
+            <TableColumn fx:id="colTotal"     text="Grand Total" prefWidth="120"/>
+            <TableColumn fx:id="colDate"      text="Date"        prefWidth="100"/>
+        </columns>
+        <placeholder>
+            <Label text="No invoices generated yet" styleClass="muted-text"/>
+        </placeholder>
+    </TableView>
+</VBox>
