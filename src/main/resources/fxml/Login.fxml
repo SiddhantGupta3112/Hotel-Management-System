@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.hotel.app.controller.LoginController"
+           styleClass="root-pane"
+           stylesheets="@../css/main.css">
+
+    <VBox styleClass="login-card" maxWidth="400" maxHeight="480"
+          StackPane.alignment="CENTER">
+
+        <VBox styleClass="brand-box" alignment="CENTER">
+            <Label text="H" styleClass="brand-icon"/>
+            <Label text="Hotel Management System" styleClass="brand-title"/>
+            <Label text="Sign in to your account" styleClass="brand-subtitle"/>
+        </VBox>
+
+        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true"
+               managed="false" visible="false"/>
+
+        <VBox styleClass="field-box">
+            <Label text="EMAIL" styleClass="field-label"/>
+            <TextField fx:id="emailField" promptText="admin@hotel.com"
+                       styleClass="input-field"/>
+        </VBox>
+
+        <VBox styleClass="field-box">
+            <Label text="PASSWORD" styleClass="field-label"/>
+            <PasswordField fx:id="passwordField" promptText="••••••••"
+                           styleClass="input-field"/>
+        </VBox>
+
+        <Button fx:id="loginButton" text="Sign In" styleClass="primary-btn"
+                onAction="#handleLogin" maxWidth="Infinity"/>
+
+        <Separator styleClass="divider"/>
+
+        <HBox alignment="CENTER" spacing="4">
+            <Label text="Don't have an account?" styleClass="muted-text"/>
+            <Hyperlink text="Sign up" styleClass="link-text"
+                       onAction="#handleSignUp"/>
+        </HBox>
+
+        <VBox.margin>
+            <Insets top="32" right="40" bottom="32" left="40"/>
+        </VBox.margin>
+
+    </VBox>
+
+</StackPane>
