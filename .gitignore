@@ -10,3 +10,4 @@ target/
 Thumbs.db
 .env
 db.properties
+final_pr_review.txt

@@ -10,7 +10,9 @@ import java.util.Optional;
 public class UserRepository {
 
     public Optional<User> findByEmail(String email) {
-        String sql = "SELECT user_id, email, name, password_hash, is_active FROM USERS WHERE email = ?";
+        // 1. Updated SQL to include phone_country_code and phone_number
+        String sql = "SELECT user_id, email, name, password_hash, is_active, phone_country_code, phone_number " +
+                "FROM USERS WHERE email = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -25,6 +27,11 @@ public class UserRepository {
                     user.setName(rs.getString("name"));
                     user.setPasswordHash(rs.getString("password_hash"));
                     user.setActive(rs.getInt("is_active") == 1);
+
+                    // 2. Map the new database columns to the User entity fields
+                    user.setPhoneCountryCode(rs.getString("phone_country_code"));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+
                     return Optional.of(user);
                 }
             }

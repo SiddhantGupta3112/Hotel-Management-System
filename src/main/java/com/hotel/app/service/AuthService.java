@@ -15,6 +15,10 @@ public class AuthService {
     }
 
     public Optional<User> login(String email, String password) {
+        if (email == null || email.isBlank() || password == null || password.isBlank()) {
+            return Optional.empty();
+        }
+
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isPresent()) {
@@ -26,6 +30,24 @@ public class AuthService {
         }
 
         return Optional.empty();
+    }
+
+    public boolean register(String email, String password, String name, String phoneCountryCode, String phoneNumber){
+        String passwordHash = hashPassword(password);
+
+        long newUserID = userRepository.save(email,passwordHash, name, phoneCountryCode, phoneNumber, true);
+
+        if(newUserID == -1){
+            return false;
+        }
+
+        userRepository.assignRole(newUserID, "ROLE_CUSTOMER");
+
+        return true;
+    }
+
+    public boolean emailExists(String email) {
+        return userRepository.emailExists(email);
     }
 
     public String hashPassword(String password) {

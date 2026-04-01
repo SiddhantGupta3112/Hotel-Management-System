@@ -1,7 +1,5 @@
 package com.hotel.app;
 
-import com.hotel.app.repository.UserRepository;
-import com.hotel.app.service.AuthService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
