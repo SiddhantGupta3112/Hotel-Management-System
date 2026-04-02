@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-label" text="REVENUE TREND (MONTHLY)" />
+            <LineChart fx:id="revenueChart" createSymbols="true" legendVisible="false">
+                <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                <yAxis><NumberAxis side="LEFT" /></yAxis>
+            </LineChart>
+        </VBox>
+
+        <VBox styleClass="stat-card" prefWidth="350">
+            <Label styleClass="stat-label" text="ROOM TYPE DISTRIBUTION" />
+            <PieChart fx:id="occupancyPieChart" labelsVisible="true" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Label styleClass="stat-label" text="POPULAR SERVICES" />
+            <BarChart fx:id="servicesChart">
+                <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                <yAxis><NumberAxis side="LEFT" /></yAxis>
+            </BarChart>
+        </VBox>
+    </HBox>
+</VBox>

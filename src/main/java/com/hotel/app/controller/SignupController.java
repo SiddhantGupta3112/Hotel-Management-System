@@ -56,7 +56,7 @@ public class SignupController {
 
                 SessionManager.getInstance().login(user, roles);
 
-                navigateTo("/fxml/Dashboard.fxml");
+                navigateTo("/fxml/CustomerDashboard.fxml");
             }
             else{
                 showError("Error Signing up. Please try again later");

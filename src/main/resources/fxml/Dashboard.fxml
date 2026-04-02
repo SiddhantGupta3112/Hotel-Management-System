@@ -1,95 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.*?>
 
-<HBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.hotel.app.controller.DashboardController"
-      styleClass="root-pane"
-      stylesheets="@../css/main.css"
-      prefWidth="1280" prefHeight="720">
+<BorderPane fx:id="mainPane" prefHeight="720.0" prefWidth="1080.0" styleClass="root-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.DashboardController">
 
-    <!-- Sidebar -->
-    <VBox styleClass="sidebar" prefWidth="200">
-        <VBox styleClass="sidebar-brand">
-            <Label text="Hotel Management" styleClass="sidebar-title"/>
-            <Label text="System v1.0" styleClass="sidebar-subtitle"/>
-        </VBox>
-        <Label text="Dashboard" styleClass="nav-item-active"/>
-        <Label text="Rooms" styleClass="nav-item"/>
-        <Label text="Bookings" styleClass="nav-item"/>
-        <Label text="Customers" styleClass="nav-item"/>
-        <Label text="Billing" styleClass="nav-item"/>
-        <Region VBox.vgrow="ALWAYS"/>
-        <VBox styleClass="sidebar-footer">
-            <Button text="Sign Out" styleClass="logout-btn"
-                    onAction="#handleLogout" maxWidth="Infinity"/>
-        </VBox>
-    </VBox>
-
-    <!-- Main Content -->
-    <VBox HBox.hgrow="ALWAYS">
-
-        <!-- Top Bar -->
-        <HBox styleClass="topbar" alignment="CENTER_LEFT">
-            <Label text="Dashboard" styleClass="topbar-title"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <HBox spacing="10" alignment="CENTER">
-                <Label fx:id="avatarLabel" styleClass="avatar-circle"/>
-                <VBox>
-                    <Label fx:id="userNameLabel" styleClass="topbar-username"/>
-                    <Label fx:id="userRoleLabel" styleClass="topbar-role"/>
-                </VBox>
-            </HBox>
-        </HBox>
-
-        <!-- Content Area -->
-        <VBox styleClass="content-area" VBox.vgrow="ALWAYS">
-            <VBox.margin><Insets top="24" right="24" bottom="24" left="24"/></VBox.margin>
-
-            <!-- Stat Cards -->
-            <HBox spacing="12">
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-                    <Label text="LOGGED IN AS" styleClass="stat-label"/>
-                    <Label fx:id="statNameLabel" styleClass="stat-value"/>
-                </VBox>
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-                    <Label text="ROLE" styleClass="stat-label"/>
-                    <Label fx:id="statRoleLabel" styleClass="stat-value"/>
-                </VBox>
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-                    <Label text="SESSION" styleClass="stat-label"/>
-                    <Label text="Active" styleClass="stat-value-green"/>
-                </VBox>
-            </HBox>
-
-            <!-- Session Info Box -->
-            <VBox styleClass="info-box" VBox.vgrow="ALWAYS">
-                <VBox.margin><Insets top="16"/></VBox.margin>
-                <Label text="SESSION DATA" styleClass="info-box-title"/>
-                <HBox styleClass="info-row">
-                    <Label text="user.getName()" styleClass="info-key"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="infoNameLabel" styleClass="info-value"/>
-                </HBox>
-                <HBox styleClass="info-row">
-                    <Label text="user.getEmail()" styleClass="info-key"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="infoEmailLabel" styleClass="info-value"/>
-                </HBox>
-                <HBox styleClass="info-row">
-                    <Label text="isLoggedIn()" styleClass="info-key"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label text="true" styleClass="info-badge"/>
-                </HBox>
-                <HBox styleClass="info-row">
-                    <Label fx:id="infoRoleCheckLabel" styleClass="info-key"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="infoRoleResultLabel" styleClass="info-badge"/>
-                </HBox>
+    <left>
+        <VBox prefWidth="220.0" styleClass="sidebar">
+            <VBox styleClass="sidebar-brand">
+                <Label styleClass="brand-icon" text="H" />
+                <Label styleClass="sidebar-title" text="GRAND HOTEL" />
+                <Label styleClass="sidebar-subtitle" text="Management System" />
             </VBox>
 
-        </VBox>
-    </VBox>
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                <VBox fx:id="navContainer" spacing="2" styleClass="sidebar">
+                    <Label fx:id="navOverview" onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Overview" />
+                    <Label fx:id="navBookings" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Bookings" />
+                    <Label fx:id="navRooms" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Rooms &amp; Inventory" />
+                    <Label fx:id="navStaff" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Staff Management" />
+                    <Label fx:id="navReports" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Reports" />
+                </VBox>
+            </ScrollPane>
 
-</HBox>
+            <Region VBox.vgrow="ALWAYS" />
+
+            <VBox styleClass="sidebar-footer">
+                <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="LOGOUT" />
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox styleClass="content-area">
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="topbar">
+                <Label fx:id="pageTitle" styleClass="topbar-title" text="Overview" />
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox alignment="CENTER_RIGHT">
+                    <Label fx:id="userNameLabel" styleClass="topbar-username" text="User Name" />
+                    <Label fx:id="userRoleLabel" styleClass="topbar-role" text="MANAGER" />
+                </VBox>
+                <Label fx:id="avatarLabel" styleClass="avatar-circle" text="JD" />
+            </HBox>
+
+            <StackPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS">
+                <Label styleClass="muted-text" text="Loading module..." />
+            </StackPane>
+        </VBox>
+    </center>
+</BorderPane>

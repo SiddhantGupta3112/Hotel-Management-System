@@ -40,7 +40,16 @@ public class LoginController {
 
             SessionManager.getInstance().login(user, roles);
 
-            navigateTo("/fxml/Dashboard.fxml");
+            SessionManager.getInstance().login(user, roles);
+
+            if (roles.contains("ROLE_MANAGER") || roles.contains("ROLE_ADMIN")) {
+                navigateTo("/fxml/ManagerDashboard.fxml");
+            } else if (roles.contains("ROLE_STAFF")) {
+                navigateTo("/fxml/StaffDashboard.fxml");
+            } else {
+                // This will now correctly catch ROLE_CUSTOMER or any other fallbacks
+                navigateTo("/fxml/CustomerDashboard.fxml");
+            }
         }
         else{
             showError("Invalid email or Password");
