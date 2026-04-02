@@ -251,3 +251,17 @@
     -fx-padding: 2 8 2 8;
     -fx-background-radius: 4;
 }
+/* Sidebar scrolling fix */
+.sidebar .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* Ensure the StackPane fills the space */
+.content-area {
+    -fx-fill-height: true;
+}
+
+/* Nav Item spacing and transitions */
+.nav-item {
+    -fx-transition: all 0.2s ease-in-out;
+}

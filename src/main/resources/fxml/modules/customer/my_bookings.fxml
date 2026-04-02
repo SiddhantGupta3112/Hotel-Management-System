@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <HBox spacing="15">
+        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
+            <Label styleClass="stat-label" text="ACTIVE BOOKINGS" />
+            <Label styleClass="stat-value" text="2" />
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
+            <Label styleClass="stat-label" text="LOYALTY POINTS" />
+            <Label styleClass="stat-value-green" text="450 pts" />
+        </VBox>
+    </HBox>
+
+    <TableView fx:id="bookingsTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="120" text="Room" />
+            <TableColumn prefWidth="150" text="Check-In" />
+            <TableColumn prefWidth="150" text="Check-Out" />
+            <TableColumn prefWidth="100" text="Status" />
+            <TableColumn prefWidth="100" text="Total Cost" />
+            <TableColumn fx:id="actionColumn" prefWidth="150" text="Actions" />
+        </columns>
+    </TableView>
+</VBox>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <HBox spacing="15">
+        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
+            <Label styleClass="stat-label" text="PENDING REQUESTS" />
+            <Label styleClass="stat-value" text="5" />
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
+            <Label styleClass="stat-label" text="TASKS IN PROGRESS" />
+            <Label styleClass="stat-value-green" text="1" />
+        </VBox>
+    </HBox>
+
+    <TableView fx:id="tasksTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn prefWidth="80" text="Room" />
+            <TableColumn prefWidth="150" text="Service Type" />
+            <TableColumn prefWidth="120" text="Priority" />
+            <TableColumn prefWidth="150" text="Wait Time" />
+            <TableColumn fx:id="taskActionColumn" prefWidth="200" text="Actions" />
+        </columns>
+    </TableView>
+</VBox>

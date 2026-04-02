@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <VBox spacing="15" HBox.hgrow="ALWAYS">
+        <Label styleClass="topbar-title" text="All Personnel" />
+        <TableView fx:id="staffTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn prefWidth="50" text="ID" />
+                <TableColumn prefWidth="150" text="Name" />
+                <TableColumn prefWidth="180" text="Email" />
+                <TableColumn prefWidth="100" text="Role" />
+                <TableColumn prefWidth="100" text="Status" />
+            </columns>
+        </TableView>
+    </VBox>
+
+    <VBox prefWidth="300" spacing="15" styleClass="info-box">
+        <Label styleClass="info-box-title" text="ADD NEW STAFF ACCOUNT" />
+
+        <VBox styleClass="field-box">
+            <Label styleClass="field-label" text="FULL NAME" />
+            <TextField styleClass="input-field" promptText="Enter name" />
+        </VBox>
+
+        <VBox styleClass="field-box">
+            <Label styleClass="field-label" text="EMAIL ADDRESS" />
+            <TextField styleClass="input-field" promptText="staff@hotel.com" />
+        </VBox>
+
+        <VBox styleClass="field-box">
+            <Label styleClass="field-label" text="ROLE" />
+            <ComboBox maxWidth="Infinity" styleClass="input-field" promptText="Select Role" />
+        </VBox>
+
+        <VBox styleClass="field-box">
+            <Label styleClass="field-label" text="TEMPORARY PASSWORD" />
+            <PasswordField styleClass="input-field" promptText="********" />
+        </VBox>
+
+        <Button maxWidth="Infinity" styleClass="primary-btn" text="CREATE ACCOUNT" />
+        <Label fx:id="formErrorLabel" styleClass="error-label" visible="false" />
+    </VBox>
+</HBox>

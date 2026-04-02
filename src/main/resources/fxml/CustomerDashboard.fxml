@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="root-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.CustomerDashboardController">
+    <left>
+        <VBox prefWidth="220.0" styleClass="sidebar">
+            <VBox styleClass="sidebar-brand">
+                <Label styleClass="brand-icon" text="H" />
+                <Label styleClass="sidebar-title" text="GUEST PORTAL" />
+                <Label styleClass="sidebar-subtitle" text="Grand Hotel Manipal" />
+            </VBox>
+            <VBox fx:id="navContainer" spacing="2" VBox.vgrow="ALWAYS">
+                <Label fx:id="navOverview" onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="My Bookings" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Book a Room" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Services" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Invoices" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
+            </VBox>
+            <VBox styleClass="sidebar-footer">
+                <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="LOGOUT" />
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <VBox styleClass="content-area">
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="topbar">
+                <Label fx:id="pageTitle" styleClass="topbar-title" text="My Bookings" />
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox alignment="CENTER_RIGHT">
+                    <Label fx:id="userNameLabel" styleClass="topbar-username" text="Guest Name" />
+                    <Label styleClass="topbar-role" text="LOYALTY MEMBER" />
+                </VBox>
+                <Label fx:id="avatarLabel" styleClass="avatar-circle" text="GN" />
+            </HBox>
+            <StackPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </center>
+</BorderPane>
