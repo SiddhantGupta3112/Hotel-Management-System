@@ -154,6 +154,30 @@ public class StaffRepository {
         return Optional.empty();
     }
 
+    public Optional<Staff> findByUserId(long userId) {
+        String sql = """
+        SELECT s.*, u.name, u.email, u.phone_country_code, u.phone_number 
+        FROM STAFF s 
+        JOIN USERS u ON s.user_id = u.user_id 
+        WHERE s.user_id = ?
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return Optional.of(mapRow(rs));
+            }
+
+        } catch (SQLException e) {
+            handleSQLException("Error fetching staff by user ID", e);
+        }
+
+        return Optional.empty();
+    }
+
     /**
      * Update: Modify staff details.
      */

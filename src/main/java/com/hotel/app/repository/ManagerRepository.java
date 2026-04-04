@@ -66,6 +66,30 @@ public class ManagerRepository {
         return Optional.empty();
     }
 
+    public Optional<Manager> findById(long managerId) {
+        String sql = """
+        SELECT m.manager_id, m.user_id, m.department_id, m.reports_to_manager_id,
+               m.job_description, m.salary,
+               u.name, u.email, u.phone_country_code, u.phone_number
+        FROM MANAGERS m
+        JOIN USERS u ON m.user_id = u.user_id
+        WHERE m.manager_id = ?
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, managerId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return Optional.of(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            handleSQLException("Error finding manager by manager ID", e);
+        }
+        return Optional.empty();
+    }
+
     /**
      * Admin: Get all managers in a specific department.
      */

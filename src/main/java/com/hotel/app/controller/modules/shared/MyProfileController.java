@@ -110,7 +110,7 @@ public class MyProfileController {
     }
 
     private void loadStaffData(long userId) {
-        staffRepository.findById(userId).ifPresent(s -> {
+        staffRepository.findByUserId(userId).ifPresent(s -> {
             // Standard Staff Identification
             roleField.setText("Operational Staff");
             jobTitleField.setText(s.getJobDescription());
@@ -118,7 +118,15 @@ public class MyProfileController {
             departmentRepository.findById(s.getDepartmentId())
                     .ifPresent(d -> departmentField.setText(d.getDepartmentName()));
 
-            managerNameField.setText(s.getManagerId() != 0 ? "Reporting to Manager ID: " + s.getManagerId() : "N/A");
+            if (s.getManagerId() != 0) {
+                managerRepository.findById(s.getManagerId())
+                        .ifPresentOrElse(
+                                m -> managerNameField.setText(m.getName()),
+                                () -> managerNameField.setText("N/A")
+                        );
+            } else {
+                managerNameField.setText("N/A");
+            }
         });
     }
 
@@ -140,12 +148,19 @@ public class MyProfileController {
                 }
             });
 
-            managerNameField.setText(m.getReportsToManagerId() == null || m.getReportsToManagerId() == 0 ?
-                    "N/A (Top Level)" : "Reports to Manager ID: " + m.getReportsToManagerId());
+            if (m.getReportsToManagerId() == null || m.getReportsToManagerId() == 0) {
+                managerNameField.setText("N/A (Top Level)");
+            } else {
+                managerRepository.findById(m.getReportsToManagerId())
+                        .ifPresentOrElse(
+                                superior -> managerNameField.setText(superior.getName()),
+                                () -> managerNameField.setText("N/A")
+                        );
+            }
         });
     }
 
-    // --- Actions ---
+
 
     @FXML
     private void handleUpdateProfile() {
