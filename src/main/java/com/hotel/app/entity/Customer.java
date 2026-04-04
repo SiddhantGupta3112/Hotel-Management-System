@@ -10,6 +10,8 @@ public class Customer{
     private String idProof;
     private String nationality;
     private int loyaltyPoints;
+    private String phoneCountryCode;
+    private String phoneNumber;
 
     public Customer(){}
 
@@ -87,6 +89,12 @@ public class Customer{
     public void setLoyaltyPoints(int loyaltyPoints) {
         this.loyaltyPoints = loyaltyPoints;
     }
+
+    public String getPhoneCountryCode()              { return phoneCountryCode; }
+    public void   setPhoneCountryCode(String v)      { this.phoneCountryCode = v; }
+
+    public String getPhoneNumber()                   { return phoneNumber; }
+    public void   setPhoneNumber(String v)           { this.phoneNumber = v; }
 
     @Override
     public String toString() {

@@ -14,7 +14,7 @@ public class CustomerRepository {
 
     public Optional<Customer> findByUserId(long userId) {
         String sql = "SELECT c.customer_id, c.user_id, c.address, c.id_proof, c.nationality, " +
-                "c.loyalty_points, u.name, u.email " +
+                "c.loyalty_points, u.name, u.email, u.phone_country_code, u.phone_number " +
                 "FROM CUSTOMERS c JOIN USERS u ON c.user_id = u.user_id " +
                 "WHERE c.user_id = ?";
 
@@ -37,7 +37,7 @@ public class CustomerRepository {
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT c.customer_id, c.user_id, c.address, c.id_proof, c.nationality, " +
-                "c.loyalty_points, u.name, u.email " +
+                "c.loyalty_points, u.name, u.email, u.phone_country_code, u.phone_number " +
                 "FROM CUSTOMERS c JOIN USERS u ON c.user_id = u.user_id " +
                 "ORDER BY u.name";
 
@@ -53,6 +53,91 @@ public class CustomerRepository {
         }
         return customers;
     }
+
+    public boolean createProfile(long userId) {
+        String sql = "INSERT INTO CUSTOMERS (user_id, address, id_proof, nationality, loyalty_points) " +
+                "VALUES (?, '', '', '', 0)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, userId);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("CustomerRepository.createProfile: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateProfile(long customerId, String address,
+                                 String idProof, String nationality) {
+        String sql = "UPDATE CUSTOMERS SET address = ?, id_proof = ?, nationality = ? " +
+                "WHERE customer_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, address);
+            stmt.setString(2, idProof);
+            stmt.setString(3, nationality);
+            stmt.setLong(4, customerId);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("CustomerRepository.updateProfile: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Customer> search(String keyword) {
+        List<Customer> list = new ArrayList<>();
+        String sql = "SELECT c.customer_id, c.user_id, c.address, c.id_proof, " +
+                "c.nationality, c.loyalty_points, " +
+                "u.name, u.email, u.phone_country_code, u.phone_number " +
+                "FROM CUSTOMERS c " +
+                "JOIN USERS u ON c.user_id = u.user_id " +
+                "WHERE LOWER(u.name) LIKE ? OR LOWER(u.email) LIKE ? " +
+                "ORDER BY u.name";
+
+        String kw = "%" + keyword.toLowerCase() + "%";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, kw);
+            stmt.setString(2, kw);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapResultSetToCustomer(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("CustomerRepository.search: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public boolean updateProfileByUserId(long userId, String address,
+                                         String idProof, String nationality) {
+        String sql = "UPDATE CUSTOMERS SET address = ?, id_proof = ?, nationality = ? " +
+                "WHERE user_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, address);
+            stmt.setString(2, idProof);
+            stmt.setString(3, nationality);
+            stmt.setLong(4, userId);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("CustomerRepository.updateProfileByUserId: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 
 
     public long save(String name, String email, String phone, String address, String idProof, String nationality) {
@@ -147,6 +232,8 @@ public class CustomerRepository {
         c.setIdProof(rs.getString("id_proof"));
         c.setNationality(rs.getString("nationality"));
         c.setLoyaltyPoints(rs.getInt("loyalty_points"));
+        c.setPhoneCountryCode(rs.getString("phone_country_code"));
+        c.setPhoneNumber(rs.getString("phone_number"));
         return c;
     }
 }

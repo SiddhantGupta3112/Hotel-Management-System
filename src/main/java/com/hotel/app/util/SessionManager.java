@@ -34,6 +34,7 @@ public class SessionManager{
     public void logout(){
         user = null;
         roles = null;
+        this.customerId = -1;
     }
 
     public User getCurrentUser(){
