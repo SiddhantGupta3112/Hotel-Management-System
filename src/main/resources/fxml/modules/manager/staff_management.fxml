@@ -3,46 +3,100 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<HBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<HBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.modules.manager.StaffManagement">
+
     <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
 
     <VBox spacing="15" HBox.hgrow="ALWAYS">
-        <Label styleClass="topbar-title" text="All Personnel" />
+        <Label styleClass="topbar-title" text="Personnel Management" />
+
+        <TextField fx:id="searchField"
+                   styleClass="input-field"
+                   promptText="Search by name or email..." />
+
         <TableView fx:id="staffTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn prefWidth="50" text="ID" />
-                <TableColumn prefWidth="150" text="Name" />
-                <TableColumn prefWidth="180" text="Email" />
-                <TableColumn prefWidth="100" text="Role" />
-                <TableColumn prefWidth="100" text="Status" />
+                <TableColumn fx:id="colId" prefWidth="60" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="150" text="Name" />
+                <TableColumn fx:id="colEmail" prefWidth="180" text="Email" />
+                <TableColumn fx:id="colRole" prefWidth="100" text="Role" />
+                <TableColumn fx:id="colDept" prefWidth="120" text="Department" />
+                <TableColumn fx:id="colStatus" prefWidth="100" text="Status" />
             </columns>
         </TableView>
     </VBox>
 
-    <VBox prefWidth="300" spacing="15" styleClass="info-box">
-        <Label styleClass="info-box-title" text="ADD NEW STAFF ACCOUNT" />
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+                prefWidth="380">
+        <VBox spacing="20">
+            <padding><Insets right="15" /></padding>
 
-        <VBox styleClass="field-box">
-            <Label styleClass="field-label" text="FULL NAME" />
-            <TextField styleClass="input-field" promptText="Enter name" />
+            <VBox spacing="15" styleClass="info-box">
+                <Label styleClass="info-box-title" text="STAFF REGISTRATION" />
+
+                <CheckBox fx:id="hodCheckBox"
+                          text="Register as Head of Dept (HOD)"
+                          styleClass="field-label"
+                          visible="false"
+                          managed="false"
+                          onAction="#handleHodCheckboxToggle" />
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="FULL NAME" />
+                    <TextField fx:id="nameField" styleClass="input-field" promptText="Enter name" />
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="EMAIL ADDRESS" />
+                    <TextField fx:id="emailField" styleClass="input-field" promptText="staff@hotel.com" />
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="ROLE" />
+                    <ComboBox fx:id="roleCombo" maxWidth="Infinity" styleClass="input-field" />
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="DEPARTMENT" />
+                    <ComboBox fx:id="departmentCombo" maxWidth="Infinity" styleClass="input-field" />
+                    <Label fx:id="deptHintLabel" styleClass="helper-label" visible="false" managed="false"/>
+                </VBox>
+
+                <VBox fx:id="managerFieldBox" styleClass="field-box">
+                    <Label styleClass="field-label" text="REPORTING MANAGER" />
+                    <ComboBox fx:id="managerCombo" maxWidth="Infinity" styleClass="input-field" />
+                    <Label fx:id="managerHintLabel" styleClass="helper-label" visible="false" managed="false"/>
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="JOB TITLE" />
+                    <TextField fx:id="jobTitleField" styleClass="input-field" />
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="SALARY" />
+                    <TextField fx:id="salaryField" styleClass="input-field" />
+                </VBox>
+
+                <VBox styleClass="field-box">
+                    <Label styleClass="field-label" text="TEMP PASSWORD" />
+                    <PasswordField fx:id="passwordField" styleClass="input-field" />
+                </VBox>
+
+                <Button fx:id="createBtn"
+                        text="CREATE ACCOUNT"
+                        maxWidth="Infinity"
+                        styleClass="primary-btn"
+                        onAction="#handleCreateStaff"/>
+
+                <Label fx:id="formErrorLabel"
+                       styleClass="error-label"
+                       visible="false"
+                       managed="false"/>
+            </VBox>
         </VBox>
-
-        <VBox styleClass="field-box">
-            <Label styleClass="field-label" text="EMAIL ADDRESS" />
-            <TextField styleClass="input-field" promptText="staff@hotel.com" />
-        </VBox>
-
-        <VBox styleClass="field-box">
-            <Label styleClass="field-label" text="ROLE" />
-            <ComboBox maxWidth="Infinity" styleClass="input-field" promptText="Select Role" />
-        </VBox>
-
-        <VBox styleClass="field-box">
-            <Label styleClass="field-label" text="TEMPORARY PASSWORD" />
-            <PasswordField styleClass="input-field" promptText="********" />
-        </VBox>
-
-        <Button maxWidth="Infinity" styleClass="primary-btn" text="CREATE ACCOUNT" />
-        <Label fx:id="formErrorLabel" styleClass="error-label" visible="false" />
-    </VBox>
+    </ScrollPane>
 </HBox>

@@ -1,6 +1,9 @@
 package com.hotel.app.controller;
 
 import com.hotel.app.entity.User;
+import com.hotel.app.repository.CustomerRepository;
+import com.hotel.app.repository.ManagerRepository;
+import com.hotel.app.repository.StaffRepository;
 import com.hotel.app.repository.UserRepository;
 import com.hotel.app.service.AuthService;
 import com.hotel.app.util.SessionManager;
@@ -27,7 +30,7 @@ public class SignupController {
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
 
-    private final AuthService authService = new AuthService(new UserRepository());
+    private final AuthService authService = new AuthService(new UserRepository(), new CustomerRepository(), new StaffRepository(), new ManagerRepository());
 
     @FXML
     private  void handleSignup(){
@@ -40,7 +43,7 @@ public class SignupController {
 
         if(validateInput(name, email, password, confirmPassword, countryCode, phone)){
 
-            boolean registered = authService.register(email, password, name, countryCode, phone);
+            boolean registered = authService.registerCustomer(email, password, name, countryCode, phone);
 
             if(! registered){
                 showError("Error signing up user");

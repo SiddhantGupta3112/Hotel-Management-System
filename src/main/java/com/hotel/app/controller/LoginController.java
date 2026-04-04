@@ -1,6 +1,9 @@
 package com.hotel.app.controller;
 
 import com.hotel.app.entity.User;
+import com.hotel.app.repository.CustomerRepository;
+import com.hotel.app.repository.ManagerRepository;
+import com.hotel.app.repository.StaffRepository;
 import com.hotel.app.repository.UserRepository;
 import com.hotel.app.service.AuthService;
 import com.hotel.app.util.SessionManager;
@@ -23,7 +26,7 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private  Label errorLabel;
 
-    private final AuthService authService = new AuthService(new UserRepository());
+    private final AuthService authService = new AuthService(new UserRepository(), new CustomerRepository(), new StaffRepository(), new ManagerRepository());
 
     @FXML
     private void handleLogin(){
@@ -40,7 +43,6 @@ public class LoginController {
 
             SessionManager.getInstance().login(user, roles);
 
-            SessionManager.getInstance().login(user, roles);
 
             if (roles.contains("ROLE_MANAGER") || roles.contains("ROLE_ADMIN")) {
                 navigateTo("/fxml/ManagerDashboard.fxml");
@@ -79,6 +81,7 @@ public class LoginController {
             stage.show();
         } catch (IOException e){
             System.out.println("Failed to navigate to " + path);
+            e.printStackTrace();
         }
     }
 }

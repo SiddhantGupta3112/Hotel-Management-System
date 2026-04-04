@@ -16,6 +16,7 @@
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Bookings" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Staff Management" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Reports" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
             </VBox>
             <VBox styleClass="sidebar-footer">
                 <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="LOGOUT" />
@@ -29,7 +30,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <VBox alignment="CENTER_RIGHT">
                     <Label fx:id="userNameLabel" styleClass="topbar-username" text="Manager Name" />
-                    <Label styleClass="topbar-role" text="GENERAL MANAGER" />
+                    <Label fx:id="userRoleLabel" styleClass="topbar-role" text="GENERAL MANAGER" />
                 </VBox>
                 <Label fx:id="avatarLabel" styleClass="avatar-circle" text="M" />
             </HBox>

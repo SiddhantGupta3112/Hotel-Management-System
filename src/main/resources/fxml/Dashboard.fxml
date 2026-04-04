@@ -2,51 +2,118 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane fx:id="mainPane" prefHeight="720.0" prefWidth="1080.0" styleClass="root-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.DashboardController">
+<ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.modules.shared.MyProfileController">
+    <VBox spacing="20.0" style="-fx-background-color: #f8f9fa;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
 
-    <left>
-        <VBox prefWidth="220.0" styleClass="sidebar">
-            <VBox styleClass="sidebar-brand">
-                <Label styleClass="brand-icon" text="H" />
-                <Label styleClass="sidebar-title" text="GRAND HOTEL" />
-                <Label styleClass="sidebar-subtitle" text="Management System" />
-            </VBox>
-
-            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
-                <VBox fx:id="navContainer" spacing="2" styleClass="sidebar">
-                    <Label fx:id="navOverview" onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Overview" />
-                    <Label fx:id="navBookings" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Bookings" />
-                    <Label fx:id="navRooms" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Rooms &amp; Inventory" />
-                    <Label fx:id="navStaff" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Staff Management" />
-                    <Label fx:id="navReports" onMouseClicked="#handleNavigation" styleClass="nav-item" text="Reports" />
-                </VBox>
-            </ScrollPane>
-
-            <Region VBox.vgrow="ALWAYS" />
-
-            <VBox styleClass="sidebar-footer">
-                <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="LOGOUT" />
-            </VBox>
+        <VBox spacing="5">
+            <Label text="Account Settings" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Label text="View and update your personal and professional information." style="-fx-text-fill: #7f8c8d;"/>
         </VBox>
-    </left>
 
-    <center>
-        <VBox styleClass="content-area">
-            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="topbar">
-                <Label fx:id="pageTitle" styleClass="topbar-title" text="Overview" />
-                <Region HBox.hgrow="ALWAYS" />
-                <VBox alignment="CENTER_RIGHT">
-                    <Label fx:id="userNameLabel" styleClass="topbar-username" text="User Name" />
-                    <Label fx:id="userRoleLabel" styleClass="topbar-role" text="MANAGER" />
+        <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+            <Label text="PERSONAL DETAILS" style="-fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+
+            <GridPane hgap="20" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                </columnConstraints>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Full Name" style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                    <TextField fx:id="nameField" styleClass="form-control"/>
                 </VBox>
-                <Label fx:id="avatarLabel" styleClass="avatar-circle" text="JD" />
+
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Email Address" style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                    <TextField fx:id="emailField" styleClass="form-control"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="Country Code" style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                    <TextField fx:id="countryCodeField" promptText="+1" styleClass="form-control"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Phone Number" style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                    <TextField fx:id="phoneNumberField" styleClass="form-control"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label text="Member Since" style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                    <TextField fx:id="memberSinceField" editable="false" style="-fx-background-color: #ecf0f1;"/>
+                </VBox>
+            </GridPane>
+
+            <Button onAction="#handleUpdateProfile" text="Save Changes" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 20; -fx-cursor: hand;"/>
+        </VBox>
+
+        <VBox fx:id="customerDetailsSection" managed="false" visible="false" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+            <Label text="CUSTOMER PROFILE" style="-fx-font-weight: bold; -fx-text-fill: #e67e22;"/>
+            <GridPane hgap="20" vgap="15">
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Residential Address" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="addressField" styleClass="form-control"/>
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Nationality" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="nationalityField" styleClass="form-control"/>
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="ID / Passport Number" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="idProofField" styleClass="form-control"/>
+                </VBox>
+                <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                    <Label text="Loyalty Status" style="-fx-font-size: 12px;"/>
+                    <Label fx:id="loyaltyPointsLabel" text="0 Points" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                </VBox>
+            </GridPane>
+        </VBox>
+
+        <VBox fx:id="employeeDetailsSection" managed="false" visible="false" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+            <Label text="EMPLOYMENT RECORD" style="-fx-font-weight: bold; -fx-text-fill: #8e44ad;"/>
+            <GridPane hgap="20" vgap="15">
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Designation" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="jobTitleField" editable="false" style="-fx-background-color: #ecf0f1;"/>
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Assigned Department" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="departmentField" editable="false" style="-fx-background-color: #ecf0f1;"/>
+                </VBox>
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                    <Label text="Reporting Authority" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="managerNameField" editable="false" style="-fx-background-color: #ecf0f1;"/>
+                </VBox>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+            <Label text="SECURITY" style="-fx-font-weight: bold; -fx-text-fill: #c0392b;"/>
+            <HBox spacing="20">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="New Password" style="-fx-font-size: 12px;"/>
+                    <PasswordField fx:id="newPasswordField" styleClass="form-control"/>
+                </VBox>
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Confirm Password" style="-fx-font-size: 12px;"/>
+                    <PasswordField fx:id="confirmPasswordField" styleClass="form-control"/>
+                </VBox>
             </HBox>
-
-            <StackPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS">
-                <Label styleClass="muted-text" text="Loading module..." />
-            </StackPane>
+            <Button onAction="#handleChangePassword" text="Update Password" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-padding: 8 20; -fx-cursor: hand;"/>
         </VBox>
-    </center>
-</BorderPane>
+
+        <VBox spacing="10" style="-fx-padding: 10 0;">
+            <Separator />
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Button onAction="#handleDeleteAccount" text="Request Account Deletion" style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-border-color: #e74c3c; -fx-border-radius: 4; -fx-cursor: hand;"/>
+                <Label fx:id="statusLabel" wrapText="true" />
+            </HBox>
+        </VBox>
+    </VBox>
+</ScrollPane>
