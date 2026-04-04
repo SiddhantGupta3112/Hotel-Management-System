@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.MyInvoicesController">
+
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Billing &amp; Invoices" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label style="-fx-text-fill: #7f8c8d;" text="Select an invoice to view payment details" />
+    </HBox>
+
+    <TableView fx:id="invoicesTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colInvId" prefWidth="70" text="Inv #" />
+            <TableColumn fx:id="colRoom" prefWidth="80" text="Room" />
+            <TableColumn fx:id="colCheckIn" prefWidth="120" text="Check-In" />
+            <TableColumn fx:id="colCheckOut" prefWidth="120" text="Check-Out" />
+            <TableColumn fx:id="colSubtotal" prefWidth="100" text="Subtotal" />
+            <TableColumn fx:id="colTax" prefWidth="80" text="Tax" />
+            <TableColumn fx:id="colTotal" prefWidth="110" text="Total" />
+            <TableColumn fx:id="colDate" prefWidth="120" text="Date Issued" />
+        </columns>
+    </TableView>
+
+    <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 5; -fx-border-color: #dee2e6; -fx-border-radius: 5;">
+        <Label fx:id="selectedInvoiceLabel" style="-fx-font-weight: bold; -fx-text-fill: #2980b9;" text="Select an invoice above to see details" />
+
+        <Separator />
+
+        <ScrollPane fitToWidth="true" minHeight="80" style="-fx-background-color: transparent;">
+            <Label fx:id="paymentsLabel" wrapText="true" style="-fx-font-family: 'Monospaced'; -fx-font-size: 13px;"
+                   text="Payment history will appear here..." />
+        </ScrollPane>
+    </VBox>
+
+</VBox>

@@ -3,6 +3,7 @@ package com.hotel.app.controller;
 import com.hotel.app.entity.User;
 import com.hotel.app.repository.UserRepository;
 import com.hotel.app.service.AuthService;
+import com.hotel.app.service.BookingService;
 import com.hotel.app.util.SessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,7 @@ public class SignupController {
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
 
-    private final AuthService authService = new AuthService(new UserRepository());
+    private final AuthService authService = new AuthService(new UserRepository(), new com.hotel.app.repository.CustomerRepository());
 
     @FXML
     private  void handleSignup(){
@@ -55,6 +56,10 @@ public class SignupController {
                 List<String> roles = authService.getRolesForUser(user.getUserId());
 
                 SessionManager.getInstance().login(user, roles);
+
+                BookingService bookingService = new BookingService();
+                bookingService.getCustomerByUserId(user.getUserId())
+                        .ifPresent(c -> SessionManager.getInstance().setCustomerId(c.getCustomerId()));
 
                 navigateTo("/fxml/CustomerDashboard.fxml");
             }

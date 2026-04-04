@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.MyBookingsController">
+
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
 
     <HBox spacing="15">
         <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
             <Label styleClass="stat-label" text="ACTIVE BOOKINGS" />
-            <Label styleClass="stat-value" text="2" />
+            <Label fx:id="statActiveBookings" styleClass="stat-value" text="0" />
         </VBox>
         <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
             <Label styleClass="stat-label" text="LOYALTY POINTS" />
-            <Label styleClass="stat-value-green" text="450 pts" />
+            <Label fx:id="statLoyaltyPoints" styleClass="stat-value-green" text="0 pts" />
         </VBox>
     </HBox>
 
     <TableView fx:id="bookingsTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn prefWidth="120" text="Room" />
-            <TableColumn prefWidth="150" text="Check-In" />
-            <TableColumn prefWidth="150" text="Check-Out" />
-            <TableColumn prefWidth="100" text="Status" />
-            <TableColumn prefWidth="100" text="Total Cost" />
-            <TableColumn fx:id="actionColumn" prefWidth="150" text="Actions" />
+            <TableColumn fx:id="colRoom" prefWidth="100" text="Room" />
+            <TableColumn fx:id="colCheckIn" prefWidth="140" text="Check-In" />
+            <TableColumn fx:id="colCheckOut" prefWidth="140" text="Check-Out" />
+            <TableColumn fx:id="colStatus" prefWidth="160" text="Status" />
+            <TableColumn fx:id="colTotalCost" prefWidth="120" text="Total Cost" />
         </columns>
     </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button fx:id="btnRequestCheckIn" onAction="#handleRequestCheckIn" disable="true"
+                style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Request Check-in" />
+
+        <Button fx:id="btnRequestCheckOut" onAction="#handleRequestCheckOut" disable="true"
+                style="-fx-background-color: #f1c40f; -fx-text-fill: black;" text="Request Check-out" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button fx:id="btnCancel" onAction="#handleCancel" disable="true"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Cancel Booking" />
+    </HBox>
+
+    <Label fx:id="feedbackLabel" visible="false" managed="false" style="-fx-font-weight: bold;" />
+
 </VBox>

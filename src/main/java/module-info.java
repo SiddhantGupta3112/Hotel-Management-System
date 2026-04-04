@@ -21,5 +21,8 @@ module com.hotel.app {
     opens com.hotel.app to javafx.fxml;
     opens com.hotel.app.controller to javafx.fxml;
 
+    opens com.hotel.app.entity to javafx.base, javafx.fxml;
     exports com.hotel.app;
+
+
 }

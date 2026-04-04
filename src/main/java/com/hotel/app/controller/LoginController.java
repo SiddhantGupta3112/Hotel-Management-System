@@ -3,6 +3,7 @@ package com.hotel.app.controller;
 import com.hotel.app.entity.User;
 import com.hotel.app.repository.UserRepository;
 import com.hotel.app.service.AuthService;
+import com.hotel.app.service.BookingService;
 import com.hotel.app.util.SessionManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +24,8 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private  Label errorLabel;
 
-    private final AuthService authService = new AuthService(new UserRepository());
+    private final AuthService authService = new AuthService(new UserRepository(), new com.hotel.app.repository.CustomerRepository());
+    private final BookingService bookingService = new BookingService();
 
     @FXML
     private void handleLogin(){
@@ -41,6 +43,13 @@ public class LoginController {
             SessionManager.getInstance().login(user, roles);
 
             SessionManager.getInstance().login(user, roles);
+
+            if (roles.contains("ROLE_CUSTOMER")) {
+                bookingService.getCustomerByUserId(user.getUserId())
+                        .ifPresent(c -> SessionManager.getInstance().setCustomerId(c.getCustomerId()));
+            }
+
+
 
             if (roles.contains("ROLE_MANAGER") || roles.contains("ROLE_ADMIN")) {
                 navigateTo("/fxml/ManagerDashboard.fxml");

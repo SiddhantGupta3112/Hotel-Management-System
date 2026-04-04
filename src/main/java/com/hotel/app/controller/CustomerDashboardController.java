@@ -8,7 +8,7 @@ package com.hotel.app.controller;
  * Nav items defined in CustomerDashboard.fxml:
  *   My Bookings    → my_bookings.fxml
  *   Book a Room    → book_a_room.fxml
- *   My Services    → my_services.fxml
+ *   My Services    → availaible_rooms.fxml
  *   My Invoices    → my_invoices.fxml
  *   My Profile     → my_profile.fxml
  */

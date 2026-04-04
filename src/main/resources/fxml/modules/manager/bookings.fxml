@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.BookingController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="20.0">
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Booking Management" />
+
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="Active Stays:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+            <Label fx:id="statTotalActive" text="0" style="-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+        </HBox>
+
+        <Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#handleRefresh" style="-fx-background-color: #ecf0f1; -fx-cursor: hand;" text="Sync Data" />
+    </HBox>
+
+    <TabPane style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+
+        <Tab text="All Bookings">
+            <VBox spacing="10.0">
+                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                <TableView fx:id="bookingsTable" VBox.vgrow="ALWAYS" />
+                <HBox alignment="CENTER_RIGHT">
+                    <Button onAction="#handleGenerateInvoice" style="-fx-background-color: #9b59b6; -fx-text-fill: white;" text="Generate Invoice for Selected" />
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Booking Requests">
+            <VBox spacing="10.0">
+                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-weight: bold;" text="Pending Approvals:" />
+                    <Label fx:id="statPending" style="-fx-text-fill: #e67e22; -fx-font-weight: bold;" text="0" />
+                </HBox>
+                <TableView fx:id="pendingTable" VBox.vgrow="ALWAYS" />
+                <HBox spacing="10.0">
+                    <Button onAction="#handleApproveBooking" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Approve Booking" />
+                    <Button onAction="#handleRejectBooking" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Reject" />
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Check-in Requests">
+            <VBox spacing="10.0">
+                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-weight: bold;" text="Guests Awaiting Check-in:" />
+                    <Label fx:id="statCheckInRequests" style="-fx-text-fill: #2980b9; -fx-font-weight: bold;" text="0" />
+                </HBox>
+                <TableView fx:id="checkInTable" VBox.vgrow="ALWAYS" />
+                <HBox spacing="10.0">
+                    <Button onAction="#handleApproveCheckIn" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Confirm Guest Arrival" />
+                    <Button onAction="#handleRejectCheckIn" text="Deny / Send Back" />
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Check-out Requests">
+            <VBox spacing="10.0">
+                <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-weight: bold;" text="Guests Awaiting Check-out:" />
+                    <Label fx:id="statCheckOutRequests" style="-fx-text-fill: #27ae60; -fx-font-weight: bold;" text="0" />
+                </HBox>
+                <TableView fx:id="checkOutTable" VBox.vgrow="ALWAYS" />
+                <HBox spacing="10.0">
+                    <Button onAction="#handleApproveCheckOut" style="-fx-background-color: #f1c40f; -fx-text-fill: black;" text="Finalize Check-out &amp; Award Points" />
+                    <Button onAction="#handleRejectCheckOut" text="Keep Stay Active" />
+                </HBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+
+    <Label fx:id="feedbackLabel" managed="false" style="-fx-font-weight: bold; -fx-padding: 5;" visible="false">
+        <VBox.margin>
+            <Insets top="5.0" />
+        </VBox.margin>
+    </Label>
+</VBox>
