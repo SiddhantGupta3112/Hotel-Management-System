@@ -26,12 +26,13 @@ public class DashboardController extends BaseDashboardController {
     @Override
     protected void onDashboardReady() {
         boolean isAdmin = SessionManager.getInstance().hasRole("ROLE_ADMIN");
+        boolean isManager = SessionManager.getInstance().hasRole("ROLE_MANAGER");
 
         navContainer.getChildren().forEach(node -> {
             if (node instanceof javafx.scene.control.Label label) {
                 String text = label.getText();
-                // Only ROLE_ADMIN sees Staff Management
-                if (text.equals("Staff Management") && !isAdmin) {
+                // Hide if it's Staff Management AND the user is NEITHER an admin nor a manager
+                if (text.equals("Staff Management") && !(isAdmin || isManager)) {
                     label.setVisible(false);
                     label.setManaged(false);
                 }
