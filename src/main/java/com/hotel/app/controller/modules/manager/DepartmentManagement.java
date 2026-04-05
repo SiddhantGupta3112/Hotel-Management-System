@@ -18,20 +18,31 @@ public class DepartmentManagement {
     @FXML private TableView<Department> departmentTable;
     @FXML private TableColumn<Department, String> nameCol;
     @FXML private TableColumn<Department, String> hodCol;
+    @FXML private TableColumn<Department, String> emailCol;
     @FXML private TextField deptNameField;
 
     private final DepartmentRepository deptRepo = new DepartmentRepository();
 
     @FXML
     public void initialize() {
-        // Link FXML columns to Department entity properties
         nameCol.setCellValueFactory(new PropertyValueFactory<>("departmentName"));
 
-        // Custom logic for the HOD column to show the name we fetch
+        // HOD Name Column
         hodCol.setCellValueFactory(cellData -> {
-            long deptId = cellData.getValue().getDepartmentId();
-            // Fetch HOD name dynamically or via a Map for better performance
-            return new SimpleStringProperty(fetchHodName(deptId));
+            return new SimpleStringProperty(
+                    deptRepo.getHOD(cellData.getValue().getDepartmentId())
+                            .map(Manager::getName)
+                            .orElse("Unassigned")
+            );
+        });
+
+        // HOD Email Column
+        emailCol.setCellValueFactory(cellData -> {
+            return new SimpleStringProperty(
+                    deptRepo.getHOD(cellData.getValue().getDepartmentId())
+                            .map(Manager::getEmail)
+                            .orElse("-")
+            );
         });
 
         loadDepartments();
