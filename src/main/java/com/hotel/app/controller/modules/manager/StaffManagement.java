@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.scene.layout.VBox;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StaffManagement {
 
@@ -65,56 +66,44 @@ public class StaffManagement {
 
     private void setupListeners() {
         departmentCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                updateManagerDropdown(newVal.getDepartmentId());
-            }
+            if (newVal != null) updateManagerDropdown(newVal.getDepartmentId());
         });
+
+        // Search Bar Listener
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> filterTable(newVal));
+    }
+
+    private void filterTable(String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            loadStaffData();
+            return;
+        }
+
+        String filter = searchText.toLowerCase();
+        List<Object> allData = new ArrayList<>();
+        allData.addAll(masterManagerList);
+        allData.addAll(masterStaffList);
+
+        List<Object> filtered = allData.stream().filter(item -> {
+            String name = (item instanceof Staff s) ? s.getName() : ((Manager) item).getName();
+            String email = (item instanceof Staff s) ? s.getEmail() : ((Manager) item).getEmail();
+            String role = (item instanceof Manager) ? "MANAGER" : "STAFF";
+            return name.toLowerCase().contains(filter) || email.toLowerCase().contains(filter) || role.toLowerCase().contains(filter);
+        }).collect(Collectors.toList());
+
+        staffTable.setItems(FXCollections.observableArrayList(filtered));
     }
 
     private void setupTable() {
-        // ID Column
-        colId.setCellValueFactory(c -> {
-            Object item = c.getValue();
-            if (item instanceof Staff s) return new SimpleLongProperty(s.getStaffId()).asObject();
-            if (item instanceof Manager m) return new SimpleLongProperty(m.getManagerId()).asObject();
-            return new SimpleLongProperty(0).asObject();
-        });
-
-        // Name Column
-        colName.setCellValueFactory(c -> {
-            Object item = c.getValue();
-            if (item instanceof Staff s) return new SimpleStringProperty(s.getName());
-            if (item instanceof Manager m) return new SimpleStringProperty(m.getName());
-            return new SimpleStringProperty("");
-        });
-
-        // Email Column
-        colEmail.setCellValueFactory(c -> {
-            Object item = c.getValue();
-            if (item instanceof Staff s) return new SimpleStringProperty(s.getEmail());
-            if (item instanceof Manager m) return new SimpleStringProperty(m.getEmail());
-            return new SimpleStringProperty("");
-        });
-
-        // Role Column
-        colRole.setCellValueFactory(c -> {
-            if (c.getValue() instanceof Manager) return new SimpleStringProperty("MANAGER");
-            return new SimpleStringProperty("STAFF");
-        });
-
-        // Dept ID Column
-        colDept.setCellValueFactory(c -> {
-            Object item = c.getValue();
-            long deptId = (item instanceof Staff s) ? s.getDepartmentId() : ((Manager) item).getDepartmentId();
-            return new SimpleStringProperty(String.valueOf(deptId));
-        });
-
+        colId.setCellValueFactory(c -> new SimpleLongProperty(c.getValue() instanceof Staff s ? s.getStaffId() : ((Manager) c.getValue()).getManagerId()).asObject());
+        colName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue() instanceof Staff s ? s.getName() : ((Manager) c.getValue()).getName()));
+        colEmail.setCellValueFactory(c -> new SimpleStringProperty(c.getValue() instanceof Staff s ? s.getEmail() : ((Manager) c.getValue()).getEmail()));
+        colRole.setCellValueFactory(c -> new SimpleStringProperty(c.getValue() instanceof Manager ? "MANAGER" : "STAFF"));
+        colDept.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue() instanceof Staff s ? s.getDepartmentId() : ((Manager) c.getValue()).getDepartmentId())));
         colStatus.setCellValueFactory(c -> new SimpleStringProperty("ACTIVE"));
     }
 
     private void loadStaffData() {
-
-
         if (isAdmin) {
             masterStaffList = staffRepo.findAll();
             masterManagerList = managerRepo.findAll();
@@ -122,9 +111,7 @@ public class StaffManagement {
             masterStaffList = staffRepo.findByDepartment(currentDeptId);
             masterManagerList = managerRepo.findByDepartment(currentDeptId);
         } else {
-            managerRepo.findByUserId(currentUserId).ifPresent(m -> {
-                masterStaffList = staffRepo.findByManagerId(m.getManagerId());
-            });
+            managerRepo.findByUserId(currentUserId).ifPresent(m -> masterStaffList = staffRepo.findByManagerId(m.getManagerId()));
         }
 
         List<Object> combinedList = new ArrayList<>();
@@ -136,33 +123,15 @@ public class StaffManagement {
     private void updateManagerDropdown(long deptId) {
         List<Manager> managers = managerRepo.findByDepartment(deptId);
         managerCombo.setItems(FXCollections.observableArrayList(managers));
-
-        // Auto-select the HOD if they are in the list
-        if (isHod) {
-            managers.stream()
-                    .filter(m -> m.getUserId() == currentUserId)
-                    .findFirst()
-                    .ifPresent(managerCombo::setValue);
-        }
+        if (isHod) managers.stream().filter(m -> m.getUserId() == currentUserId).findFirst().ifPresent(managerCombo::setValue);
     }
 
     private void configureForm() {
         hodCheckBox.setVisible(isAdmin);
         hodCheckBox.setManaged(isAdmin);
-
         if (!isAdmin) {
-            departmentRepo.findById(currentDeptId).ifPresent(d -> {
-                departmentCombo.setValue(d);
-                departmentCombo.setDisable(true);
-                // Triggered because listener was set up before this call
-            });
-
-            if (!isHod) {
-                managerRepo.findByUserId(currentUserId).ifPresent(m -> {
-                    managerCombo.setValue(m);
-                    managerCombo.setDisable(true);
-                });
-            }
+            departmentRepo.findById(currentDeptId).ifPresent(d -> { departmentCombo.setValue(d); departmentCombo.setDisable(true); });
+            if (!isHod) managerRepo.findByUserId(currentUserId).ifPresent(m -> { managerCombo.setValue(m); managerCombo.setDisable(true); });
         }
     }
 
@@ -180,15 +149,7 @@ public class StaffManagement {
                 return;
             }
 
-            Long reportingMgrId = null;
-            if (!hodCheckBox.isSelected()) {
-                Manager m = managerCombo.getValue();
-                if (m == null) {
-                    showStatus("Please select a reporting manager", true);
-                    return;
-                }
-                reportingMgrId = m.getManagerId();
-            }
+            Long reportingMgrId = (!hodCheckBox.isSelected() && managerCombo.getValue() != null) ? managerCombo.getValue().getManagerId() : null;
 
             boolean success = "ROLE_MANAGER".equals(role)
                     ? authService.registerManager(email, password, name, "+91", "0000000000", dept.getDepartmentId(), reportingMgrId, jobTitleField.getText(), Double.parseDouble(salaryField.getText()))
@@ -199,33 +160,20 @@ public class StaffManagement {
                 showStatus("Account created successfully!", false);
                 clearForm();
                 loadStaffData();
-            } else {
-                showStatus("Creation failed. Check database.", true);
-            }
-        } catch (Exception e) {
-            showStatus("Error: " + e.getMessage(), true);
-        }
+            } else showStatus("Creation failed. Check database.", true);
+        } catch (Exception e) { showStatus("Error: " + e.getMessage(), true); }
     }
 
     private void linkNewHodToDepartment(String email, long deptId) {
-        userRepository.findByEmail(email).ifPresent(user -> {
-            managerRepo.findByUserId(user.getUserId()).ifPresent(mgr -> {
-                departmentRepo.updateHead(deptId, mgr.getManagerId());
-            });
-        });
+        userRepository.findByEmail(email).ifPresent(u -> managerRepo.findByUserId(u.getUserId()).ifPresent(m -> departmentRepo.updateHead(deptId, m.getManagerId())));
     }
 
     @FXML
     private void handleHodCheckboxToggle() {
         boolean isChecked = hodCheckBox.isSelected();
         managerFieldBox.setDisable(isChecked);
-        if (isChecked) {
-            managerCombo.setValue(null);
-            roleCombo.setValue("ROLE_MANAGER");
-            roleCombo.setDisable(true);
-        } else {
-            roleCombo.setDisable(false);
-        }
+        if (isChecked) { managerCombo.setValue(null); roleCombo.setValue("ROLE_MANAGER"); roleCombo.setDisable(true); }
+        else roleCombo.setDisable(false);
     }
 
     private void loadDropdowns() {
@@ -235,26 +183,9 @@ public class StaffManagement {
 
     private void setupDropdownDisplay() {
         departmentCombo.setCellFactory(cb -> new ListCell<Department>() {
-            @Override protected void updateItem(Department d, boolean empty) {
-                super.updateItem(d, empty);
-                setText(empty || d == null ? null : d.getDepartmentName());
-            }
+            @Override protected void updateItem(Department d, boolean empty) { super.updateItem(d, empty); setText(empty || d == null ? null : d.getDepartmentName()); }
         });
         departmentCombo.setButtonCell(departmentCombo.getCellFactory().call(null));
-
-        managerCombo.setCellFactory(cb -> new ListCell<Manager>() {
-            @Override protected void updateItem(Manager m, boolean empty) {
-                super.updateItem(m, empty);
-                if (empty || m == null) {
-                    setText(null);
-                } else {
-                    String text = m.getName();
-                    if (m.getUserId() == currentUserId) text += " (Me / HOD)";
-                    setText(text);
-                }
-            }
-        });
-        managerCombo.setButtonCell(managerCombo.getCellFactory().call(null));
     }
 
     private void showStatus(String msg, boolean isError) {
