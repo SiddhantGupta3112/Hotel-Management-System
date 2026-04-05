@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -31,16 +32,22 @@ public abstract class BaseDashboardController {
     @FXML protected Label     avatarLabel;
     @FXML protected VBox      navContainer;
 
-    // ── Called by JavaFX after FXML fields are injected ──────────────
 
+    /**
+     *Initializes the dashboard.
+     **/
     @FXML
     public final void initialize() {
-        setupUserInfo();
-        onDashboardReady();
-        loadModule(getDefaultModule());
+        try {
+            setupUserInfo();
+            onDashboardReady();
+            loadModule(getDefaultModule());
+        } catch (Exception e) {
+            handleGlobalError("Dashboard Initialization Failed", e);
+        }
     }
 
-    // ── Abstract contract ─────────────────────────────────────────────
+
 
     /** Returns the subfolder path under /fxml/modules/, e.g. "manager/" or "customer/" */
     protected abstract String getModulePath();
@@ -56,6 +63,10 @@ public abstract class BaseDashboardController {
 
     // ── Navigation ────────────────────────────────────────────────────
 
+    /**
+     * Handles sidebar navigation. Updates UI styles and maps Label text to FXML filenames.
+     * @param event The mouse event from the clicked Label.
+     */
     @FXML
     protected void handleNavigation(MouseEvent event) {
         Label selected = (Label) event.getSource();
@@ -95,7 +106,6 @@ public abstract class BaseDashboardController {
         try {
             String path;
 
-            // ✅ Detect absolute path
             if (fxmlFile.startsWith("/")) {
                 path = fxmlFile;
             } else {
@@ -104,7 +114,6 @@ public abstract class BaseDashboardController {
 
             var resource = getClass().getResource(path);
 
-            // 🔥 DEBUG (keep this for now)
             System.out.println("Loading FXML: " + path);
             System.out.println("Resolved URL: " + resource);
 
@@ -116,7 +125,7 @@ public abstract class BaseDashboardController {
             contentPlaceholder.getChildren().setAll(node);
 
         } catch (Exception e) {
-            e.printStackTrace(); // 🔥 IMPORTANT: see real error
+            e.printStackTrace();
             Label placeholder = new Label("Failed to load: " + fxmlFile);
             contentPlaceholder.getChildren().setAll(placeholder);
         }
@@ -167,5 +176,13 @@ public abstract class BaseDashboardController {
         String[] parts = name.trim().split("\\s+");
         if (parts.length == 1) return parts[0].substring(0, 1).toUpperCase();
         return (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase();
+    }
+
+    private void handleGlobalError(String context, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Error");
+        alert.setHeaderText(context);
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
     }
 }
