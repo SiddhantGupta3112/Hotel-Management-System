@@ -9,10 +9,11 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.hotel.app.controller.modules.manager.OverviewController">
 
-    <VBox spacing="16">
-        <VBox.margin><Insets top="24" right="24" bottom="24" left="24"/></VBox.margin>
+    <VBox spacing="20" styleClass="root-pane">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
 
-        <!-- Header -->
         <HBox alignment="CENTER_LEFT" spacing="16">
             <VBox>
                 <Label text="Dashboard Overview" styleClass="topbar-title"/>
@@ -23,80 +24,68 @@
                     onAction="#handleRefresh" prefWidth="120"/>
         </HBox>
 
-        <!-- Row 1: Room Stats -->
-        <HBox spacing="12">
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+        <HBox spacing="16">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="TOTAL ROOMS" styleClass="stat-label"/>
                 <Label fx:id="totalRoomsLabel" styleClass="stat-value" text="—"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="AVAILABLE" styleClass="stat-label"/>
                 <Label fx:id="availableRoomsLabel" styleClass="stat-value-green" text="—"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="OCCUPIED" styleClass="stat-label"/>
-                <Label fx:id="occupiedRoomsLabel" styleClass="stat-value" text="—"
-                       style="-fx-text-fill: #e94560;"/>
+                <Label fx:id="occupiedRoomsLabel" styleClass="stat-value-red" text="—"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="MAINTENANCE" styleClass="stat-label"/>
-                <Label fx:id="maintenanceRoomsLabel" styleClass="stat-value" text="—"
-                       style="-fx-text-fill: #f59e0b;"/>
+                <Label fx:id="maintenanceRoomsLabel" styleClass="stat-value-orange" text="—"/>
             </VBox>
         </HBox>
 
-        <!-- Row 2: Revenue -->
-        <HBox spacing="12">
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+        <HBox spacing="16">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="TODAY'S REVENUE" styleClass="stat-label"/>
                 <Label fx:id="todayRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="MONTH REVENUE" styleClass="stat-label"/>
                 <Label fx:id="monthRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="YEAR REVENUE" styleClass="stat-label"/>
                 <Label fx:id="yearRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
             </VBox>
         </HBox>
 
-        <!-- Row 3: Activity -->
-        <HBox spacing="12">
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+        <HBox spacing="16">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="TODAY CHECK-INS" styleClass="stat-label"/>
-                <Label fx:id="todayCheckInsLabel" styleClass="stat-value" text="—"
-                       style="-fx-text-fill: #60a5fa;"/>
+                <Label fx:id="todayCheckInsLabel" styleClass="stat-value-blue" text="—"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="TODAY CHECK-OUTS" styleClass="stat-label"/>
-                <Label fx:id="todayCheckOutsLabel" styleClass="stat-value" text="—"
-                       style="-fx-text-fill: #60a5fa;"/>
+                <Label fx:id="todayCheckOutsLabel" styleClass="stat-value-blue" text="—"/>
             </VBox>
-            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                 <Label text="PENDING INVOICES" styleClass="stat-label"/>
-                <Label fx:id="pendingInvoicesLabel" styleClass="stat-value" text="—"
-                       style="-fx-text-fill: #f59e0b;"/>
+                <Label fx:id="pendingInvoicesLabel" styleClass="stat-value-orange" text="—"/>
             </VBox>
         </HBox>
 
-        <!-- Alerts Section -->
         <VBox styleClass="info-box" spacing="12">
             <Label text="ALERTS" styleClass="info-box-title"/>
-            <HBox spacing="12">
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
-                    <Label fx:id="overdueCheckoutsLabel" styleClass="stat-value" text="—"
-                           style="-fx-text-fill: #f59e0b;"/>
+            <HBox spacing="16">
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+                    <Label fx:id="overdueCheckoutsLabel" styleClass="stat-value-orange" text="—"/>
                     <Label text="Overdue check-outs" styleClass="stat-label"/>
                 </VBox>
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
-                    <Label fx:id="missedCheckinsLabel" styleClass="stat-value" text="—"
-                           style="-fx-text-fill: #e94560;"/>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+                    <Label fx:id="missedCheckinsLabel" styleClass="stat-value-red" text="—"/>
                     <Label text="Missed check-ins" styleClass="stat-label"/>
                 </VBox>
-                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
-                    <Label fx:id="pendingServicesLabel" styleClass="stat-value" text="—"
-                           style="-fx-text-fill: #60a5fa;"/>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+                    <Label fx:id="pendingServicesLabel" styleClass="stat-value-blue" text="—"/>
                     <Label text="Pending service requests" styleClass="stat-label"/>
                 </VBox>
             </HBox>

@@ -11,13 +11,13 @@
                 <Label styleClass="sidebar-subtitle" text="Management &amp; Analytics" />
             </VBox>
             <VBox fx:id="navContainer" spacing="2" VBox.vgrow="ALWAYS">
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Overview" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Rooms &amp; Inventory" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Overview" maxWidth="Infinity" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Rooms &amp; Inventory" maxWidth="Infinity" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Bookings" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Staff Management" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Department Management" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Reports" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Staff Management" maxWidth="Infinity" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Department Management" maxWidth="Infinity" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Reports" maxWidth="Infinity" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" maxWidth="Infinity" />
             </VBox>
             <VBox styleClass="sidebar-footer">
                 <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="LOGOUT" />

@@ -54,7 +54,7 @@ public class ServiceRequest {
 
 
     public String getChargeDisplay() {
-        return String.format("$%.2f", (this.servicePrice * this.quantity));
+        return String.format("₹%.2f", (this.servicePrice * this.quantity));
     }
 
 

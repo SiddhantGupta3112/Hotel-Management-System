@@ -3,46 +3,77 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.hotel.app.controller.BookARoomController" style="-fx-background-color: white;">
-    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.BookARoomController"
+      styleClass="content-area"
+      spacing="20"
+      stylesheets="@../../../css/main.css">
 
-    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #dee2e6;">
-        <Label text="BOOK A NEW STAY" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="SELECT ROOM:" prefWidth="100"/>
-            <ComboBox fx:id="roomCombo" promptText="Choose a room..." HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-        </HBox>
-
-        <HBox spacing="20">
-            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                <Label text="Check-In Date"/>
-                <DatePicker fx:id="checkInPicker" maxWidth="Infinity"/>
-            </VBox>
-            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                <Label text="Check-Out Date"/>
-                <DatePicker fx:id="checkOutPicker" maxWidth="Infinity"/>
-            </VBox>
-        </HBox>
-
-        <Label fx:id="costPreviewLabel" text="Estimated cost: ₹0 for 0 nights" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-
-        <Button text="Confirm Booking" onAction="#handleConfirmBooking"
-                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"/>
-
-        <Label fx:id="feedbackLabel" visible="false" managed="false"/>
+    <VBox spacing="5">
+        <Label text="Book a New Stay" styleClass="title-text"/>
+        <Label text="Reserve a room and calculate stay costs for guests." styleClass="subtitle-text"/>
     </VBox>
 
-    <Label text="Available Rooms Catalog" style="-fx-font-weight: bold;"/>
-    <TableView fx:id="myRoomsTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colRoomNo" text="Room No" prefWidth="80"/>
-            <TableColumn fx:id="colType" text="Type" prefWidth="120"/>
-            <TableColumn fx:id="colFloor" text="Floor" prefWidth="80"/>
-            <TableColumn fx:id="colCapacity" text="Capacity" prefWidth="80"/>
-            <TableColumn fx:id="colPrice" text="Price/Night" prefWidth="100"/>
-            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
-        </columns>
-    </TableView>
+    <VBox spacing="20" styleClass="card">
+        <Label text="RESERVATION DETAILS" styleClass="section-title-red"/>
+
+        <GridPane hgap="20" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="100"/>
+            </columnConstraints>
+
+            <VBox spacing="8" GridPane.rowIndex="0">
+                <Label text="Select Room" styleClass="field-label"/>
+                <ComboBox fx:id="roomCombo" promptText="Choose a room..." maxWidth="Infinity" styleClass="combo-box"/>
+            </VBox>
+
+            <HBox spacing="20" GridPane.rowIndex="1">
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Check-In Date" styleClass="field-label"/>
+                    <DatePicker fx:id="checkInPicker" maxWidth="Infinity" styleClass="date-picker"/>
+                </VBox>
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Check-Out Date" styleClass="field-label"/>
+                    <DatePicker fx:id="checkOutPicker" maxWidth="Infinity" styleClass="date-picker"/>
+                </VBox>
+            </HBox>
+        </GridPane>
+
+        <Separator styleClass="separator"/>
+
+        <HBox alignment="CENTER_LEFT" spacing="20">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label fx:id="costPreviewLabel" text="Estimated cost: ₹0 for 0 nights"
+                       style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+            </VBox>
+
+            <Button text="Confirm Booking"
+                    onAction="#handleConfirmBooking"
+                    styleClass="primary-btn"/>
+        </HBox>
+
+        <Label fx:id="feedbackLabel" visible="false" managed="false" styleClass="status-label"/>
+    </VBox>
+
+    <VBox spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="AVAILABLE ROOMS CATALOG" styleClass="section-title-red"/>
+
+        <TableView fx:id="myRoomsTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="colRoomNo" text="Room No" prefWidth="100"/>
+                <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
+                <TableColumn fx:id="colFloor" text="Floor" prefWidth="100"/>
+                <TableColumn fx:id="colCapacity" text="Capacity" prefWidth="100"/>
+                <TableColumn fx:id="colPrice" text="Price/Night" prefWidth="120"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            </columns>
+            <placeholder>
+                <Label text="No rooms available for the selected criteria." styleClass="muted-text"/>
+            </placeholder>
+        </TableView>
+    </VBox>
 </VBox>

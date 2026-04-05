@@ -1,267 +1,743 @@
-/* ── Root ── */
-.root-pane {
-    -fx-background-color: #1a1a2e;
+/* ── HOTEL MANAGEMENT SYSTEM: FULL UNIFIED THEME ── */
+
+.root {
+    /* Primary Palette */
+    -fx-bg-dark: #1a1a2e;
+    -fx-card-bg: #16213e;
+    -fx-border-navy: #0f3460;
+    -fx-accent-red: #e94560;
+    -fx-accent-red-hover: #c73652;
+
+    /* Text Colors */
+    -fx-text-primary: #e2e8f0;
+    -fx-text-muted: #94a3b8;
+    -fx-text-field-label: #cbd5e1;
+
+    /* Table Palette */
+    -fx-table-bg: #ffffff;
+    -fx-table-text: #1e293b;
+    -fx-table-header-bg: #f8fafc;
 }
 
-/* ── Login Card ── */
-.login-card {
-    -fx-background-color: #16213e;
-    -fx-background-radius: 12;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 12;
-    -fx-spacing: 16;
+/* ── Global Background Fixes ── */
+/* Prevents white bars/backgrounds from appearing under the Overview or in empty spaces */
+.root-pane, .content-area, .scroll-pane, .scroll-pane > .viewport {
+    -fx-background-color: -fx-bg-dark;
 }
 
-/* ── Brand ── */
-.brand-box {
-    -fx-spacing: 6;
-    -fx-padding: 0 0 8 0;
+/* ── Sidebar & Navigation (Fixed Shrinking & Contrast) ── */
+.sidebar {
+    -fx-background-color: -fx-card-bg;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0.5 0 0;
 }
+
+.sidebar-brand {
+    -fx-padding: 30 20;
+    -fx-spacing: 12;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0 0.5 0;
+}
+
 .brand-icon {
-    -fx-background-color: #e94560;
-    -fx-background-radius: 8;
+    -fx-background-color: -fx-accent-red;
     -fx-text-fill: white;
-    -fx-font-size: 22px;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
     -fx-font-weight: bold;
-    -fx-min-width: 48;
-    -fx-min-height: 48;
-    -fx-alignment: CENTER;
+    -fx-font-size: 18px;
 }
-.brand-title {
-    -fx-text-fill: #e2e8f0;
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Fix for illegible 'Management & Analytics' labels */
+.sidebar .label, .sidebar-subtitle, .muted-text {
+    -fx-text-fill: -fx-text-muted !important;
+}
+
+.nav-item {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+    -fx-padding: 15 20;
+    -fx-cursor: hand;
+
+    /* CRITICAL FIXES */
+    -fx-pref-width: 220;
+    -fx-min-width: 220;
+    -fx-max-width: 220;
+
+    -fx-alignment: CENTER_LEFT;
+
+    /* Prevent layout shift */
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 4;
+
+    /* ADD THIS */
+    -fx-font-weight: normal;
+
+    -fx-pref-height: 45;
+    -fx-min-height: 45;
+    -fx-max-height: 45;
+}
+
+.nav-item:hover {
+    -fx-text-fill: white;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item-active {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(233, 69, 96, 0.15);
+
+    /* KEEP SAME BORDER WIDTH */
+    -fx-border-color: -fx-accent-red;
+    -fx-border-width: 0 0 0 4;
+
+    /* ENSURE SAME SIZE */
+    -fx-pref-width: 220;
+    -fx-min-width: 220;
+    -fx-max-width: 220;
+    -fx-pref-height: 45;
+    -fx-min-height: 45;
+    -fx-max-height: 45;
+
+    -fx-padding: 15 20;
+}
+
+/* ── Top Bar & User Details (Fixed Legibility) ── */
+.topbar {
+    -fx-background-color: -fx-card-bg;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0 0.5 0;
+    -fx-padding: 12 25;
+}
+
+.topbar-title {
+    -fx-text-fill: white;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
-.brand-subtitle {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 12px;
+
+.topbar-username {
+    -fx-text-fill: white !important;
+    -fx-font-weight: bold;
 }
 
-/* ── Form Fields ── */
+.topbar-role {
+    -fx-text-fill: -fx-accent-red !important;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.avatar-circle {
+    -fx-background-color: -fx-border-navy;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 50;
+    -fx-border-color: -fx-accent-red;
+    -fx-border-width: 1;
+}
+
+/* ── Login Card & Spacing ── */
+.login-card {
+    -fx-background-color: -fx-card-bg;
+    -fx-padding: 45;
+    -fx-spacing: 25;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-border-navy;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 20, 0, 0, 10);
+}
+
 .field-box {
-    -fx-spacing: 6;
+    -fx-spacing: 8;
+    -fx-padding: 0 0 5 0;
 }
+
 .field-label {
-    -fx-text-fill: #94a3b8;
+    /* Fix for dark labels in Registration form */
+    -fx-text-fill: -fx-text-field-label !important;
     -fx-font-size: 11px;
+    -fx-font-weight: bold;
 }
-.input-field {
+
+/* ── Form Controls ── */
+.input-field, .date-picker, .combo-box {
     -fx-background-color: #0f3460;
     -fx-border-color: #1e4080;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-text-fill: #e2e8f0;
+    -fx-text-fill: white;
     -fx-prompt-text-fill: #475569;
-    -fx-font-size: 14px;
-    -fx-padding: 10 14 10 14;
-}
-.input-field:focused {
-    -fx-border-color: #e94560;
+    -fx-padding: 10 12;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
 }
 
-/* ── Buttons ── */
-.primary-btn {
-    -fx-background-color: #e94560;
+.input-field:focused {
+    -fx-border-color: -fx-accent-red;
+    -fx-background-color: #16213e;
+}
+
+.check-box .text {
+    -fx-fill: -fx-text-muted;
+}
+
+/* ── Buttons (Fixed Logout) ── */
+.primary-btn, .logout-btn, .button {
+    -fx-background-color: -fx-accent-red;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-padding: 11 0 11 0;
+    -fx-padding: 10 20;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
 }
-.primary-btn:hover {
-    -fx-background-color: #c73652;
+
+.primary-btn:hover, .logout-btn:hover {
+    -fx-background-color: -fx-accent-red-hover;
 }
 
-/* ── Error Label ── */
-.error-label {
-    -fx-background-color: rgba(233,69,96,0.12);
-    -fx-border-color: rgba(233,69,96,0.4);
+/* ── Dashboard Stats ── */
+.stat-card {
+    -fx-background-color: -fx-card-bg;
+    -fx-border-color: -fx-border-navy;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.stat-label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.stat-value { -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; }
+.stat-value-green { -fx-text-fill: #10b981; -fx-font-size: 20px; -fx-font-weight: bold; }
+.stat-value-red { -fx-text-fill: #e94560; -fx-font-size: 20px; -fx-font-weight: bold; }
+.stat-value-orange { -fx-text-fill: #f59e0b; -fx-font-size: 20px; -fx-font-weight: bold; }
+
+/* ── Tables ── */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-border-navy;
     -fx-border-width: 0.5;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-text-fill: #e94560;
-    -fx-font-size: 12px;
-    -fx-padding: 8 12 8 12;
 }
 
-/* ── Divider & Links ── */
-.divider {
-    -fx-border-color: #0f3460;
-    -fx-padding: 4 0 4 0;
+.table-view .column-header {
+    -fx-background-color: -fx-table-header-bg;
+    -fx-size: 45;
 }
-.muted-text {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 13px;
+
+.table-row-cell:selected {
+    -fx-background-color: rgba(233, 69, 96, 0.1);
+    -fx-text-fill: -fx-accent-red;
 }
+
+/* ── Error & Links ── */
+.error-label {
+    -fx-text-fill: #ff4d4d;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-max-width: Infinity;
+}
+
 .link-text {
-    -fx-text-fill: #e94560;
+    -fx-text-fill: #60a5fa;
+    -fx-font-weight: bold;
+}
+
+.brand-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.brand-subtitle {
+    -fx-text-fill: -fx-text-muted;
     -fx-font-size: 13px;
-    -fx-border-width: 0;
+}
+
+.header-label {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+/* Tab header area */
+.tab-pane .tab-header-area {
+    -fx-background-color: -fx-card-bg;
+    -fx-padding: 5 10;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0 0.5 0;
+}
+
+/* Individual tabs */
+.tab {
+    -fx-background-color: transparent;
+    -fx-padding: 8 18;
+}
+
+/* Tab text */
+.tab .tab-label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect */
+.tab:hover {
+    -fx-background-color: rgba(255,255,255,0.05);
+}
+
+/* Selected tab */
+.tab:selected {
+    -fx-background-color: rgba(233, 69, 96, 0.15);
+    -fx-border-color: -fx-accent-red;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Selected tab text */
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.form-container {
+    -fx-background-color: -fx-card-bg;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-radius: 8;
+}
+
+.text-field, .combo-box {
+    -fx-background-color: #0f3460;
+    -fx-border-color: #1e4080;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #64748b;
+    -fx-padding: 8 10;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: -fx-accent-red;
+    -fx-background-color: #16213e;
+}
+
+.button-primary {
+    -fx-background-color: -fx-accent-red;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+}
+
+.button-primary:hover {
+    -fx-background-color: -fx-accent-red-hover;
+}
+
+/* Secondary (neutral actions) */
+.button-secondary {
+    -fx-background-color: #334155;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #475569;
+}
+
+/* Danger (delete) */
+.button-danger {
+    -fx-background-color: #dc2626;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+}
+
+.button-danger:hover {
+    -fx-background-color: #b91c1c;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-border-navy;
+}
+
+/* Header */
+.table-view .column-header {
+    -fx-background-color: -fx-table-header-bg;
+    -fx-border-color: transparent transparent #e2e8f0 transparent;
+    -fx-padding: 10;
+}
+
+/* Header text */
+.table-view .column-header .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-weight: bold;
+}
+
+/* Rows */
+.table-row-cell {
+    -fx-background-color: white;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+/* Selected row */
+.table-row-cell:selected {
+    -fx-background-color: rgba(233, 69, 96, 0.15);
+    -fx-text-fill: -fx-accent-red;
+}
+
+.separator {
+    -fx-background-color: -fx-border-navy;
+}
+
+.tab-pane,
+.tab-pane .tab-content-area,
+.tab-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Fix content area explicitly */
+.tab-pane .tab-content-area {
+    -fx-background-color: -fx-bg-dark;
     -fx-padding: 0;
 }
-/* ── Sidebar ── */
-.sidebar {
-    -fx-background-color: #16213e;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0 0.5 0 0;
-    -fx-spacing: 2;
-}
-.sidebar-brand {
-    -fx-spacing: 4;
-    -fx-padding: 20 16 16 16;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0 0 0.5 0;
-}
-.sidebar-title {
-    -fx-text-fill: #e2e8f0;
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-}
-.sidebar-subtitle {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 11px;
-}
-.nav-item {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 13px;
-    -fx-padding: 10 16 10 16;
-    -fx-cursor: hand;
-}
-.nav-item-active {
-    -fx-text-fill: #e94560;
-    -fx-font-size: 13px;
-    -fx-padding: 10 16 10 14;
-    -fx-border-color: #e94560;
-    -fx-border-width: 0 0 0 2;
-    -fx-background-color: rgba(233,69,96,0.08);
-}
-.sidebar-footer {
-    -fx-padding: 12 16 12 16;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0.5 0 0 0;
-}
-.logout-btn {
-    -fx-background-color: transparent;
-    -fx-border-color: #e94560;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-text-fill: #e94560;
-    -fx-font-size: 12px;
-    -fx-padding: 7 0 7 0;
-    -fx-cursor: hand;
+
+/* Remove weird inner borders */
+.tab-pane .tab-header-background {
+    -fx-background-color: -fx-card-bg;
 }
 
-/* ── Top Bar ── */
-.topbar {
-    -fx-background-color: #16213e;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0 0 0.5 0;
-    -fx-padding: 14 20 14 20;
-}
-.topbar-title {
-    -fx-text-fill: #e2e8f0;
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
-}
-.topbar-username {
-    -fx-text-fill: #e2e8f0;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-}
-.topbar-role {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 10px;
-}
-.avatar-circle {
-    -fx-background-color: #e94560;
-    -fx-background-radius: 15;
-    -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-min-width: 30;
-    -fx-min-height: 30;
-    -fx-alignment: CENTER;
-}
-
-/* ── Content ── */
-.content-area {
-    -fx-background-color: #1a1a2e;
-    -fx-spacing: 0;
-}
-.stat-card {
-    -fx-background-color: #16213e;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 12;
-    -fx-spacing: 6;
-}
-.stat-label {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 11px;
-}
-.stat-value {
-    -fx-text-fill: #e2e8f0;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-.stat-value-green {
-    -fx-text-fill: #22c55e;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-/* ── Info Box ── */
-.info-box {
-    -fx-background-color: #16213e;
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0.5;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 12;
-    -fx-spacing: 0;
+/* Remove default focus/outline */
+.tab-pane:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 .info-box-title {
-    -fx-text-fill: #94a3b8;
-    -fx-font-size: 11px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+
+    /* spacing */
     -fx-padding: 0 0 10 0;
+
+    /* subtle separator line */
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0 1 0;
+
+    /* slight letter spacing feel */
+    -fx-opacity: 0.95;
 }
-.info-row {
-    -fx-border-color: #0f3460;
-    -fx-border-width: 0 0 0.5 0;
-    -fx-padding: 8 0 8 0;
+
+/* ── Right Panel (Form Card) ── */
+.info-box {
+    -fx-background-color: -fx-card-bg;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -fx-border-navy;
 }
-.info-key {
-    -fx-text-fill: #64748b;
+
+/* Optional: make table match dark theme better */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+}
+
+/* Improve placeholder text */
+.muted-text {
+    -fx-text-fill: -fx-text-muted;
     -fx-font-size: 12px;
 }
-.info-value {
-    -fx-text-fill: #e2e8f0;
-    -fx-font-size: 12px;
-}
-.info-badge {
-    -fx-background-color: rgba(233,69,96,0.15);
-    -fx-text-fill: #e94560;
-    -fx-font-size: 10px;
-    -fx-padding: 2 8 2 8;
-    -fx-background-radius: 4;
-}
-/* Sidebar scrolling fix */
-.sidebar .scroll-pane {
+
+/* ── DARK CHART THEME ── */
+.chart-dark {
     -fx-background-color: transparent;
 }
 
-/* Ensure the StackPane fills the space */
-.content-area {
-    -fx-fill-height: true;
+/* Chart plot area */
+.chart-plot-background {
+    -fx-background-color: transparent;
 }
 
-/* Nav Item spacing and transitions */
-.nav-item {
-    -fx-transition: all 0.2s ease-in-out;
+/* Grid lines */
+.chart-horizontal-grid-lines,
+.chart-vertical-grid-lines {
+    -fx-stroke: rgba(255,255,255,0.08);
+}
+
+/* Axis */
+.axis {
+    -fx-tick-label-fill: #94a3b8;
+}
+
+.axis-label {
+    -fx-text-fill: #94a3b8;
+}
+
+/* Line chart line */
+.chart-series-line {
+    -fx-stroke: #e94560;
+    -fx-stroke-width: 2px;
+}
+
+/* Data points */
+.chart-line-symbol {
+    -fx-background-color: #e94560, #1a1a2e;
+    -fx-background-radius: 5px;
+}
+
+/* Bar chart */
+.chart-bar {
+    -fx-background-color: #e94560;
+    -fx-background-radius: 4;
+}
+
+/* Pie chart */
+.chart-pie {
+    -fx-border-color: transparent;
+}
+
+/* Legend */
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #e2e8f0;
+}
+
+/* Chart title (if used) */
+.chart-title {
+    -fx-text-fill: white;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 10 0 5 0;
+
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* ── Axis Text (X & Y labels) ── */
+.axis {
+    -fx-tick-label-fill: #cbd5e1;   /* brighter than muted */
+    -fx-font-size: 11px;
+}
+
+/* Axis labels (if any) */
+.axis-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Tick marks */
+.axis-tick-mark,
+.axis-minor-tick-mark {
+    -fx-stroke: rgba(255,255,255,0.2);
+}
+
+/* ── Chart Titles ── */
+.chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* ── Pie Chart Labels (THIS is the big one) ── */
+.chart-pie-label {
+    -fx-fill: white;               /* FIX invisible text */
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Optional: improve readability */
+.chart-pie-label-line {
+    -fx-stroke: rgba(255,255,255,0.4);
+}
+
+/* ── Legend Text ── */
+.chart-legend-item {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 11px;
+}
+
+/* ── Improve spacing ── */
+.chart-legend {
+    -fx-padding: 5 0 0 0;
+}
+
+/* ── PIE CHART TEXT FIX (Room Type Distribution) ── */
+
+/* Labels on slices */
+.chart-pie-label {
+    -fx-fill: white;              /* main fix */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+    /* improves readability on colored slices */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 3, 0, 0, 1);
+}
+
+/* Connector lines */
+.chart-pie-label-line {
+    -fx-stroke: rgba(255,255,255,0.5);
+    -fx-stroke-width: 1;
+}
+
+/* Legend (right side) */
+.chart-legend-item {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 11px;
+}
+
+/* Remove ugly default background */
+.chart {
+    -fx-background-color: transparent;
+}
+
+/* Optional: smoother look */
+.chart-pie {
+    -fx-border-color: transparent;
+}
+
+.chart-pie-label {
+    -fx-font-size: 10px;
+}
+.chart-pie-label {
+    -fx-opacity: 0.85;
+}
+
+.section-title-red {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e74c3c;  /* your existing danger color */
+}
+
+.title-text {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.subtitle-text {
+    -fx-text-fill: -fx-text-muted; /* Uses #94a3b8 for clear legibility */
+    -fx-font-size: 13px;
+    /* Ensures the subtitle doesn't blend into the background */
+    -fx-opacity: 0.9;
+}
+
+.error-text {
+    -fx-text-fill: #ef4444; /* Bright Red */
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 0;
+}
+
+.note-text {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+.action-btn {
+    -fx-font-size: 11px;
+    -fx-padding: 4 8; /* Reduced padding to fit in rows */
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.btn-start {
+    -fx-background-color: #10b981; /* Green */
+    -fx-text-fill: white;
+}
+
+.btn-complete {
+    -fx-background-color: #3b82f6; /* Blue */
+    -fx-text-fill: white;
+}
+
+.btn-cancel {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-accent-red;
+    -fx-text-fill: -fx-accent-red;
+}
+
+/* ── SplitPane Styling ── */
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* The draggable divider line */
+.split-pane *.split-pane-divider {
+    -fx-background-color: -fx-border-navy;
+    -fx-padding: 1; /* Thin line to save vertical space */
+}
+
+.split-pane *.split-pane-divider:hover {
+    -fx-background-color: -fx-accent-red;
+}
+
+.card {
+    -fx-background-color: -fx-card-bg;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-color: -fx-border-navy;
+    -fx-border-width: 1;
+}
+
+.table-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 0 5;
+}
+
+/* Styling for the request success message */
+.success-message {
+    -fx-background-color: rgba(76, 175, 80, 0.15); /* Faded green background */
+    -fx-border-color: #4CAF50;                    /* Bright green border */
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 10 15;
+    -fx-text-fill: #81c784;                       /* Light green text */
+    -fx-font-weight: bold;
+}
+
+.table-view .action-btn.btn-start {
+    -fx-padding: 4 10 !important;   /* Force smaller padding */
+    -fx-font-size: 11px !important; /* Smaller font for the row */
+    -fx-min-height: 26px;           /* Lock height so it doesn't expand row */
+    -fx-max-height: 26px;
+    -fx-pref-height: 26px;
+    -fx-background-radius: 4;       /* Slightly sharper corners for small size */
 }

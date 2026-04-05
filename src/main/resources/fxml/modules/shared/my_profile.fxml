@@ -6,25 +6,27 @@
 
 <ScrollPane
         fitToWidth="true"
-        style="-fx-background-color: transparent;"
+        styleClass="root-pane"
         stylesheets="@../../../css/main.css"
         xmlns="http://javafx.com/javafx/17"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="com.hotel.app.controller.modules.shared.MyProfileController">
 
-    <VBox spacing="20.0" style="-fx-background-color: #f8f9fa;">
+    <VBox spacing="20.0" styleClass="page-bg">
         <padding>
             <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
         </padding>
 
+        <!-- HEADER -->
         <VBox spacing="5">
-            <Label text="Account Settings" styleClass="title-text" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Label text="Account Settings" styleClass="title-text"/>
             <Label text="View and update your personal and professional information."
-                   styleClass="subtitle-text" style="-fx-text-fill: #7f8c8d;"/>
+                   styleClass="subtitle-text"/>
         </VBox>
 
-        <VBox spacing="15" styleClass="card" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
-            <Label text="PERSONAL DETAILS" styleClass="section-title-blue" style="-fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+        <!-- PERSONAL -->
+        <VBox spacing="15" styleClass="card">
+            <Label text="PERSONAL DETAILS" styleClass="section-title-red"/>
 
             <GridPane hgap="20" vgap="15">
                 <columnConstraints>
@@ -33,82 +35,82 @@
                 </columnConstraints>
 
                 <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <Label text="Full Name" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="Full Name" styleClass="field-label"/>
                     <TextField fx:id="nameField" styleClass="form-control"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <Label text="Email Address" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="Email Address" styleClass="field-label"/>
                     <TextField fx:id="emailField" styleClass="form-control"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <Label text="Country Code" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="Country Code" styleClass="field-label"/>
                     <TextField fx:id="countryCodeField" promptText="+91" styleClass="form-control"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <Label text="Phone Number" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="Phone Number" styleClass="field-label"/>
                     <TextField fx:id="phoneNumberField" styleClass="form-control"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <Label text="Member Since" styleClass="field-label" style="-fx-font-size: 11px;"/>
-                    <TextField fx:id="memberSinceField" editable="false" styleClass="readonly-field" style="-fx-background-color: #f1f2f6;"/>
+                    <Label text="Member Since" styleClass="field-label"/>
+                    <TextField fx:id="memberSinceField" editable="false" styleClass="readonly-field"/>
                 </VBox>
             </GridPane>
 
             <Button text="Save Changes"
                     onAction="#handleUpdateProfile"
-                    styleClass="primary-button"
-                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;"/>
+                    styleClass="primary-button"/>
         </VBox>
 
+        <!-- CUSTOMER -->
         <VBox fx:id="customerDetailsSection"
               managed="false"
               visible="false"
               spacing="15"
-              styleClass="card"
-              style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+              styleClass="card">
 
-            <Label text="CUSTOMER PROFILE" styleClass="section-title-orange" style="-fx-font-weight: bold; -fx-text-fill: #e67e22;"/>
+            <Label text="CUSTOMER PROFILE" styleClass="section-title-orange"/>
 
             <GridPane hgap="20" vgap="15">
-                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+
+                <VBox spacing="5">
                     <Label text="Residential Address" styleClass="field-label"/>
                     <TextField fx:id="addressField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <VBox spacing="5">
                     <Label text="Nationality" styleClass="field-label"/>
                     <TextField fx:id="nationalityField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <VBox spacing="5">
                     <Label text="ID / Passport Number" styleClass="field-label"/>
                     <TextField fx:id="idProofField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                <VBox spacing="10">
                     <Label text="Loyalty Status" styleClass="field-label"/>
-                    <Label fx:id="loyaltyPointsLabel" text="0 Points" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                    <Label fx:id="loyaltyPointsLabel" styleClass="loyalty-label"/>
                 </VBox>
+
             </GridPane>
 
             <Button text="Save Customer Details"
                     onAction="#handleSaveCustomerDetails"
-                    styleClass="primary-button"
-                    style="-fx-background-color: #e67e22; -fx-text-fill: white;"/>
+                    styleClass="primary-button-orange"/>
         </VBox>
 
+        <!-- EMPLOYEE -->
         <VBox fx:id="employeeDetailsSection"
               managed="false"
               visible="false"
               spacing="15"
-              styleClass="card"
-              style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+              styleClass="card">
 
-            <Label text="EMPLOYMENT RECORD" styleClass="section-title-purple" style="-fx-font-weight: bold; -fx-text-fill: #9b59b6;"/>
+            <Label text="EMPLOYMENT RECORD" styleClass="section-title-red"/>
 
             <GridPane hgap="20" vgap="15">
                 <columnConstraints>
@@ -117,57 +119,59 @@
                 </columnConstraints>
 
                 <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <Label text="Operational Role" styleClass="field-label" style="-fx-font-size: 11px;"/>
-                    <TextField fx:id="roleField" editable="false" styleClass="readonly-field" style="-fx-background-color: #f1f2f6; -fx-font-weight: bold;"/>
+                    <Label text="Operational Role" styleClass="field-label"/>
+                    <TextField fx:id="roleField" editable="false" styleClass="readonly-field"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <Label text="Designation" styleClass="field-label" style="-fx-font-size: 11px;"/>
-                    <TextField fx:id="jobTitleField" editable="false" styleClass="readonly-field" style="-fx-background-color: #f1f2f6;"/>
+                    <Label text="Designation" styleClass="field-label"/>
+                    <TextField fx:id="jobTitleField" editable="false" styleClass="readonly-field"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <Label text="Assigned Department" styleClass="field-label" style="-fx-font-size: 11px;"/>
-                    <TextField fx:id="departmentField" editable="false" styleClass="readonly-field" style="-fx-background-color: #f1f2f6;"/>
+                    <Label text="Assigned Department" styleClass="field-label"/>
+                    <TextField fx:id="departmentField" editable="false" styleClass="readonly-field"/>
                 </VBox>
 
                 <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <Label text="Reporting Authority" styleClass="field-label" style="-fx-font-size: 11px;"/>
-                    <TextField fx:id="managerNameField" editable="false" styleClass="readonly-field" style="-fx-background-color: #f1f2f6;"/>
+                    <Label text="Reporting Authority" styleClass="field-label"/>
+                    <TextField fx:id="managerNameField" editable="false" styleClass="readonly-field"/>
                 </VBox>
             </GridPane>
-            <Label text="Note: Employment details and roles are managed by HR/Administration." style="-fx-font-size: 11px; -fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+
+            <Label text="Note: Employment details and roles are managed by HR/Administration."
+                   styleClass="note-text"/>
         </VBox>
 
-        <VBox spacing="15" styleClass="card" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
-            <Label text="SECURITY" styleClass="section-title-red" style="-fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+        <!-- SECURITY -->
+        <VBox spacing="15" styleClass="card">
+            <Label text="SECURITY" styleClass="section-title-red"/>
 
             <HBox spacing="20">
                 <VBox spacing="5" HBox.hgrow="ALWAYS">
-                    <Label text="New Password" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="New Password" styleClass="field-label"/>
                     <PasswordField fx:id="newPasswordField" styleClass="form-control"/>
                 </VBox>
 
                 <VBox spacing="5" HBox.hgrow="ALWAYS">
-                    <Label text="Confirm Password" styleClass="field-label" style="-fx-font-size: 11px;"/>
+                    <Label text="Confirm Password" styleClass="field-label"/>
                     <PasswordField fx:id="confirmPasswordField" styleClass="form-control"/>
                 </VBox>
             </HBox>
 
             <Button text="Update Password"
                     onAction="#handleChangePassword"
-                    styleClass="dark-button"
-                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-cursor: hand;"/>
+                    styleClass="dark-button"/>
         </VBox>
 
+        <!-- DELETE -->
         <VBox spacing="10">
             <Separator/>
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Button text="Request Account Deletion"
                         onAction="#handleDeleteAccount"
-                        styleClass="danger-outline-button"
-                        style="-fx-background-color: transparent; -fx-border-color: #e74c3c; -fx-text-fill: #e74c3c; -fx-cursor: hand;"/>
-                <Label fx:id="statusLabel" wrapText="true" />
+                        styleClass="danger-outline-button"/>
+                <Label fx:id="statusLabel"/>
             </HBox>
         </VBox>
 

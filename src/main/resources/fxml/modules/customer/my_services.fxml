@@ -6,132 +6,115 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.hotel.app.controller.ServiceController"
       styleClass="content-area"
-      spacing="14"
+      spacing="20"
       stylesheets="@../../../css/main.css">
 
-    <VBox.margin>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </VBox.margin>
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
 
-    <!-- ═══ Header ════════════════════════════════════════════ -->
-    <HBox alignment="CENTER_LEFT" spacing="12">
-        <Label text="Services" styleClass="topbar-title"/>
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox spacing="5">
+            <Label text="Hotel Services" styleClass="title-text"/>
+            <Label text="Request room service or amenities directly to your door." styleClass="subtitle-text"/>
+        </VBox>
         <Region HBox.hgrow="ALWAYS"/>
         <Button text="&#x21BB; Refresh" styleClass="logout-btn" onAction="#handleRefresh"/>
     </HBox>
 
-    <!-- ═══ Active booking status card ════════════════════════ -->
-    <VBox fx:id="bookingStatusBox" styleClass="info-box" spacing="10">
-        <Label text="YOUR ACTIVE BOOKING" styleClass="info-box-title"/>
-        <HBox spacing="30" alignment="CENTER_LEFT">
-            <VBox spacing="3">
+    <VBox fx:id="bookingStatusBox" styleClass="card" spacing="15">
+        <Label text="YOUR ACTIVE STAY" styleClass="section-title-purple"/>
+        <HBox spacing="40" alignment="CENTER_LEFT">
+            <VBox spacing="5">
                 <Label text="ROOM" styleClass="stat-label"/>
-                <Label fx:id="bookingRoomLabel" styleClass="stat-value"/>
+                <Label fx:id="bookingRoomLabel" styleClass="stat-value-orange" text="—"/>
             </VBox>
-            <VBox spacing="3">
+            <VBox spacing="5">
                 <Label text="CHECK-IN" styleClass="stat-label"/>
-                <Label fx:id="bookingCheckInLabel" styleClass="stat-value"/>
+                <Label fx:id="bookingCheckInLabel" styleClass="stat-value" text="—"/>
             </VBox>
-            <VBox spacing="3">
+            <VBox spacing="5">
                 <Label text="CHECK-OUT" styleClass="stat-label"/>
-                <Label fx:id="bookingCheckOutLabel" styleClass="stat-value"/>
+                <Label fx:id="bookingCheckOutLabel" styleClass="stat-value" text="—"/>
             </VBox>
-            <VBox spacing="3">
+            <VBox spacing="5">
                 <Label text="STATUS" styleClass="stat-label"/>
-                <Label fx:id="bookingStatusLabel" styleClass="stat-value"/>
+                <Label fx:id="bookingStatusLabel" styleClass="stat-value-green" text="—"/>
             </VBox>
         </HBox>
     </VBox>
 
-    <!-- ═══ No booking message (shown when user has no active booking) ═ -->
-    <VBox fx:id="noBookingBox"
-          styleClass="info-box"
-          alignment="CENTER"
-          spacing="10"
-          minHeight="140"
-          visible="false"
-          managed="false">
-        <Label text="No active booking" styleClass="topbar-title"/>
-        <Label text="Services are only available when you have a confirmed or checked-in booking."
-               styleClass="muted-text"
-               wrapText="true"
-               maxWidth="500"/>
+    <VBox fx:id="noBookingBox" styleClass="card" alignment="CENTER" spacing="15" minHeight="150" visible="false" managed="false">
+        <Label text="No Active Booking Found" styleClass="title-text"/>
+        <Label text="Services are only available during an active stay." styleClass="muted-text" alignment="CENTER" textAlignment="CENTER" wrapText="true" maxWidth="400"/>
     </VBox>
 
-    <!-- ═══ Main service section (hidden until booking confirmed) ════ -->
-    <VBox fx:id="serviceSection"
-          spacing="14"
-          VBox.vgrow="ALWAYS"
-          visible="false"
-          managed="false">
+    <VBox fx:id="serviceSection" VBox.vgrow="ALWAYS" visible="false" managed="false">
+        <SplitPane orientation="VERTICAL"
+                   VBox.vgrow="ALWAYS"
+                   dividerPositions="0.55"
+                   style="-fx-background-color: transparent; -fx-padding: 0;">
+            <items>
 
-        <!-- Service catalog -->
-        <VBox styleClass="info-box" VBox.vgrow="ALWAYS" spacing="10">
-            <Label text="AVAILABLE SERVICES" styleClass="info-box-title"/>
+                <VBox styleClass="card" spacing="12">
+                    <Label text="AVAILABLE SERVICES" styleClass="section-title-red"/>
 
-            <!-- Request options row -->
-            <HBox spacing="12" alignment="CENTER_LEFT">
-                <Label text="QTY" styleClass="field-label"/>
-                <TextField fx:id="quantityField"
-                           text="1"
-                           prefWidth="55"
-                           styleClass="input-field"/>
-                <Label text="NOTES FOR STAFF" styleClass="field-label"/>
-                <TextField fx:id="notesField"
-                           promptText="e.g. please use unscented detergent"
-                           HBox.hgrow="ALWAYS"
-                           styleClass="input-field"/>
-            </HBox>
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="4">
+                            <Label text="QTY" styleClass="field-label"/>
+                            <TextField fx:id="quantityField" text="1" prefWidth="60" styleClass="form-control"/>
+                        </VBox>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="NOTES FOR STAFF" styleClass="field-label"/>
+                            <TextField fx:id="notesField" promptText="Special instructions..." styleClass="form-control"/>
+                        </VBox>
+                    </HBox>
 
-            <!-- Feedback labels -->
-            <Label fx:id="requestErrorLabel"
-                   styleClass="error-label"
-                   visible="false"
-                   managed="false"
-                   wrapText="true"/>
-            <Label fx:id="requestSuccessLabel"
-                   styleClass="muted-text"
-                   visible="false"
-                   managed="false"
-                   wrapText="true"/>
+                    <TableView fx:id="serviceTable"
+                               VBox.vgrow="ALWAYS"
+                               minHeight="120"
+                               styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colServiceName"     text="Service"     prefWidth="180"/>
+                            <TableColumn fx:id="colServiceCategory" text="Category"    prefWidth="120"/>
+                            <TableColumn fx:id="colServiceDesc"     text="Description" prefWidth="300"/>
+                            <TableColumn fx:id="colServicePrice"    text="Price"       prefWidth="85"/>
+                            <TableColumn fx:id="colServiceAction"   text="Action"      prefWidth="115"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="Loading catalog..." styleClass="muted-text"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
 
-            <!-- Service table -->
-            <TableView fx:id="serviceTable"
-                       VBox.vgrow="ALWAYS"
-                       styleClass="dark-table">
-                <columns>
-                    <TableColumn fx:id="colServiceName"     text="Service"     prefWidth="185"/>
-                    <TableColumn fx:id="colServiceCategory" text="Category"    prefWidth="130"/>
-                    <TableColumn fx:id="colServiceDesc"     text="Description" prefWidth="290"/>
-                    <TableColumn fx:id="colServicePrice"    text="Price"       prefWidth="85"/>
-                    <TableColumn fx:id="colServiceAction"   text=""            prefWidth="95"/>
-                </columns>
-                <placeholder>
-                    <Label text="Loading services..." styleClass="muted-text"/>
-                </placeholder>
-            </TableView>
-        </VBox>
+                <VBox styleClass="card" spacing="12">
+                    <Label text="MY REQUESTS FOR THIS STAY" styleClass="section-title-red"/>
 
-        <!-- My requests for this booking -->
-        <VBox styleClass="info-box" spacing="10" minHeight="160">
-            <Label text="MY REQUESTS FOR THIS STAY" styleClass="info-box-title"/>
+                    <TableView fx:id="myRequestsTable"
+                               VBox.vgrow="ALWAYS"
+                               minHeight="100"
+                               styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colReqService" text="Service"   prefWidth="180"/>
+                            <TableColumn fx:id="colReqQty"     text="Qty"       prefWidth="55"/>
+                            <TableColumn fx:id="colReqNotes"   text="Notes"     prefWidth="220"/>
+                            <TableColumn fx:id="colReqStatus"  text="Status"    prefWidth="110"/>
+                            <TableColumn fx:id="colReqTime"    text="Requested" prefWidth="150"/>
+                            <TableColumn fx:id="colReqCancel"  text="Action"    prefWidth="105"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No requests yet" styleClass="muted-text"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
 
-            <TableView fx:id="myRequestsTable"
-                       styleClass="dark-table"
-                       minHeight="110">
-                <columns>
-                    <TableColumn fx:id="colReqService" text="Service"   prefWidth="180"/>
-                    <TableColumn fx:id="colReqQty"     text="Qty"       prefWidth="45"/>
-                    <TableColumn fx:id="colReqNotes"   text="Notes"     prefWidth="220"/>
-                    <TableColumn fx:id="colReqStatus"  text="Status"    prefWidth="110"/>
-                    <TableColumn fx:id="colReqTime"    text="Requested" prefWidth="155"/>
-                    <TableColumn fx:id="colReqCancel"  text=""          prefWidth="90"/>
-                </columns>
-                <placeholder>
-                    <Label text="No requests yet" styleClass="muted-text"/>
-                </placeholder>
-            </TableView>
-        </VBox>
-
+            </items>
+        </SplitPane>
     </VBox>
+
+    <HBox alignment="CENTER_LEFT" minHeight="25">
+        <Label fx:id="requestErrorLabel" styleClass="error-text" visible="false" managed="false"/>
+        <Label fx:id="requestSuccessLabel" styleClass="success-message" visible="false" managed="false"/>
+    </HBox>
+
 </VBox>

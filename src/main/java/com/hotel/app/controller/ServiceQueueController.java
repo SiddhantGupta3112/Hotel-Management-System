@@ -7,13 +7,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class ServiceQueueController {
 
@@ -41,14 +41,10 @@ public class ServiceQueueController {
     @FXML private Label feedbackLabel;
 
     private final ServiceRequestService service = new ServiceRequestService();
-
-    /** All requests loaded from DB — filter runs against this list without a new DB call. */
     private ObservableList<ServiceRequest> allRequests = FXCollections.observableArrayList();
-
-    /** Active filter: "ALL", "PENDING", or "IN_PROGRESS" */
     private String activeFilter = "ALL";
 
-    // ── Initialise ────────────────────────────────────────────
+    // ── Initialize ────────────────────────────────────────────
 
     @FXML
     public void initialize() {
@@ -75,7 +71,7 @@ public class ServiceQueueController {
         colQTime.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getRequestedAtFormatted()));
 
-        // Colour-coded status
+        // Status styling
         colQStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colQStatus.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(String s, boolean empty) {
@@ -90,46 +86,54 @@ public class ServiceQueueController {
             }
         });
 
-        // Action buttons: [In Progress] [Served] [Cancel]
+        // ── FIXED ACTION BUTTONS ──
         colQActions.setCellFactory(col -> new TableCell<>() {
-            private final Button btnProgress = new Button("In Progress");
-            private final Button btnServed   = new Button("Served");
+            private final Button btnProgress = new Button("Start");
+            private final Button btnServed   = new Button("Serve");
             private final Button btnCancel   = new Button("Cancel");
-            private final HBox   box         = new HBox(6, btnProgress, btnServed, btnCancel);
+            private final HBox box = new HBox(6, btnProgress, btnServed, btnCancel);
 
             {
-                btnProgress.getStyleClass().add("logout-btn");
-                btnServed  .getStyleClass().add("primary-btn");
-                btnCancel  .getStyleClass().add("logout-btn");
+                // Applying the small 'action-btn' styles from main.css
+                btnProgress.getStyleClass().addAll("action-btn", "btn-start");
+                btnServed.getStyleClass().addAll("action-btn", "btn-complete");
+                btnCancel.getStyleClass().addAll("action-btn", "btn-cancel");
 
-                btnProgress.setPrefWidth(88);
-                btnServed  .setPrefWidth(68);
-                btnCancel  .setPrefWidth(60);
+                btnProgress.setPrefWidth(65);
+                btnServed.setPrefWidth(65);
+                btnCancel.setPrefWidth(65);
+
+                box.setAlignment(Pos.CENTER);
 
                 btnProgress.setOnAction(e -> handleMarkInProgress(getCurrentRequest()));
-                btnServed  .setOnAction(e -> handleMarkServed(getCurrentRequest()));
-                btnCancel  .setOnAction(e -> handleMarkCancelled(getCurrentRequest()));
+                btnServed.setOnAction(e -> handleMarkServed(getCurrentRequest()));
+                btnCancel.setOnAction(e -> handleMarkCancelled(getCurrentRequest()));
             }
 
             private ServiceRequest getCurrentRequest() {
-                return getTableView().getItems().get(getIndex());
+                if (getTableRow() == null) return null;
+                return getTableRow().getItem();
             }
 
             @Override protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) { setGraphic(null); return; }
-                ServiceRequest r = getCurrentRequest();
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setGraphic(null);
+                    return;
+                }
 
-                // Show only the buttons that make sense for the current status
+                ServiceRequest r = getTableRow().getItem();
                 boolean isPending    = "PENDING".equals(r.getStatus());
                 boolean isInProgress = "IN_PROGRESS".equals(r.getStatus());
 
                 btnProgress.setVisible(isPending);
                 btnProgress.setManaged(isPending);
-                btnServed  .setVisible(isPending || isInProgress);
-                btnServed  .setManaged(isPending || isInProgress);
-                btnCancel  .setVisible(isPending || isInProgress);
-                btnCancel  .setManaged(isPending || isInProgress);
+
+                btnServed.setVisible(isPending || isInProgress);
+                btnServed.setManaged(isPending || isInProgress);
+
+                btnCancel.setVisible(isPending || isInProgress);
+                btnCancel.setManaged(isPending || isInProgress);
 
                 setGraphic(box);
             }
@@ -157,7 +161,7 @@ public class ServiceQueueController {
             case "IN_PROGRESS" -> allRequests.stream()
                     .filter(r -> "IN_PROGRESS".equals(r.getStatus()))
                     .collect(Collectors.toList());
-            default            -> allRequests;   // ALL
+            default            -> allRequests;
         };
         queueTable.setItems(FXCollections.observableArrayList(filtered));
     }
@@ -165,52 +169,44 @@ public class ServiceQueueController {
     // ── Action handlers ───────────────────────────────────────
 
     private void handleMarkInProgress(ServiceRequest r) {
+        if (r == null) return;
         long staffId = SessionManager.getInstance().getCurrentUser().getUserId();
         boolean ok = service.markInProgress(r.getRequestId(), staffId);
         if (ok) {
-            showFeedback("Marked in-progress: " + r.getServiceName()
-                    + " for Room " + r.getRoomNumber());
+            showFeedback("Marked in-progress: " + r.getServiceName() + " for Room " + r.getRoomNumber());
             loadRequests();
         } else {
-            showFeedback("Could not update status — request may have changed.");
+            showFeedback("Could not update status.");
         }
     }
 
     private void handleMarkServed(ServiceRequest r) {
-        // Confirmation dialog before billing the guest
+        if (r == null) return;
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirm Service");
         confirm.setHeaderText("Mark as served?");
-        confirm.setContentText(
-                "Service: " + r.getServiceName() + "\n" +
-                        "Guest:   " + r.getGuestName() + "  (Room " + r.getRoomNumber() + ")\n" +
-                        "Charge:  " + r.getChargeDisplay() + "\n\n" +
-                        "This will add the charge to the guest's bill.");
+        confirm.setContentText("Service: " + r.getServiceName() + "\nCharge: " + r.getChargeDisplay());
 
         confirm.showAndWait().ifPresent(btn -> {
             if (btn == ButtonType.OK) {
                 long staffId = SessionManager.getInstance().getCurrentUser().getUserId();
-                boolean ok = service.markServed(r.getRequestId(), staffId);
-                if (ok) {
-                    showFeedback("Served: " + r.getServiceName()
-                            + " — " + r.getChargeDisplay()
-                            + " added to Room " + r.getRoomNumber() + "'s bill.");
+                if (service.markServed(r.getRequestId(), staffId)) {
+                    showFeedback("Served: " + r.getServiceName() + " billed to Room " + r.getRoomNumber());
                     loadRequests();
                 } else {
-                    showFeedback("Error marking served. Please try again.");
+                    showFeedback("Error marking served.");
                 }
             }
         });
     }
 
     private void handleMarkCancelled(ServiceRequest r) {
-        boolean ok = service.markCancelled(r.getRequestId());
-        if (ok) {
-            showFeedback("Cancelled: " + r.getServiceName()
-                    + " for Room " + r.getRoomNumber() + ". No charge applied.");
+        if (r == null) return;
+        if (service.markCancelled(r.getRequestId())) {
+            showFeedback("Cancelled: " + r.getServiceName());
             loadRequests();
         } else {
-            showFeedback("Could not cancel — request may already be completed.");
+            showFeedback("Could not cancel request.");
         }
     }
 
@@ -238,8 +234,6 @@ public class ServiceQueueController {
         clearFeedback();
         loadRequests();
     }
-
-    // ── Helpers ───────────────────────────────────────────────
 
     private void setActiveFilter(Button active) {
         for (Button b : new Button[]{btnAll, btnPending, btnInProgress}) {

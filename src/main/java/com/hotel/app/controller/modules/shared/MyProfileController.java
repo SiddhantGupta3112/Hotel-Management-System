@@ -15,10 +15,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Shared Controller for the Profile Module.
- * Dynamically adapts UI based on whether the logged-in user is a Customer, Staff, or Manager.
- */
 public class MyProfileController {
 
     // --- FXML Bindings: Shared Section ---
@@ -52,10 +48,6 @@ public class MyProfileController {
         loadProfileData();
     }
 
-    /**
-     * Toggles which sections are visible and managed (taking up space)
-     * based on the SessionManager roles.
-     */
     private void setupRoleVisibility() {
         SessionManager session = SessionManager.getInstance();
         boolean isCustomer = session.hasRole("ROLE_CUSTOMER");
@@ -72,25 +64,25 @@ public class MyProfileController {
         }
     }
 
-    /**
-     * Loads the base User data and then drills down into role-specific data.
-     */
     private void loadProfileData() {
         User currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser == null) return;
 
-        // 1. Shared User Data
+        // Shared User Data
         nameField.setText(currentUser.getName());
         emailField.setText(currentUser.getEmail());
         countryCodeField.setText(currentUser.getPhoneCountryCode() != null ? currentUser.getPhoneCountryCode() : "+91");
         phoneNumberField.setText(currentUser.getPhoneNumber());
 
         if (currentUser.getCreatedAt() != null) {
-            memberSinceField.setText(currentUser.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+            memberSinceField.setText(
+                    currentUser.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+            );
         }
 
-        // 2. Role-Specific Data Loading
+        // Role-specific
         SessionManager session = SessionManager.getInstance();
+
         if (session.hasRole("ROLE_MANAGER")) {
             loadManagerData(currentUser.getUserId());
         } else if (session.hasRole("ROLE_STAFF")) {
@@ -111,7 +103,6 @@ public class MyProfileController {
 
     private void loadStaffData(long userId) {
         staffRepository.findByUserId(userId).ifPresent(s -> {
-            // Standard Staff Identification
             roleField.setText("Operational Staff");
             jobTitleField.setText(s.getJobDescription());
 
@@ -137,14 +128,10 @@ public class MyProfileController {
             departmentRepository.findById(m.getDepartmentId()).ifPresent(d -> {
                 departmentField.setText(d.getDepartmentName());
 
-                // LOGIC: Check if this manager is the official Head (HOD) of the department
-                // Uses the HeadManagerId logic from your DepartmentRepository
                 if (d.getHeadManagerId() != 0 && d.getHeadManagerId() == m.getManagerId()) {
                     roleField.setText("Head of Department (HOD)");
-                    roleField.setStyle("-fx-text-fill: #9b59b6; -fx-font-weight: bold;"); // Purple bold for HODs
                 } else {
                     roleField.setText("Management Staff");
-                    roleField.setStyle("-fx-text-fill: #2c3e50;");
                 }
             });
 
@@ -159,8 +146,6 @@ public class MyProfileController {
             }
         });
     }
-
-
 
     @FXML
     private void handleUpdateProfile() {
@@ -213,7 +198,11 @@ public class MyProfileController {
             return;
         }
 
-        boolean success = authService.updatePassword(SessionManager.getInstance().getCurrentUser().getUserId(), newPass);
+        boolean success = authService.updatePassword(
+                SessionManager.getInstance().getCurrentUser().getUserId(),
+                newPass
+        );
+
         if (success) {
             showStatus("Password changed successfully!", false);
             newPasswordField.clear();
@@ -225,8 +214,15 @@ public class MyProfileController {
 
     @FXML
     private void handleDeleteAccount() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deactivate account permanently?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Deactivate account permanently?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+
         alert.setHeaderText("Account Deletion");
+
         alert.showAndWait().ifPresent(type -> {
             if (type == ButtonType.YES) {
                 long userId = SessionManager.getInstance().getCurrentUser().getUserId();
@@ -240,7 +236,6 @@ public class MyProfileController {
 
     private void navigateToLogin() {
         try {
-            // Strictly lowercase for WSL/Linux compatibility
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
             Stage stage = (Stage) statusLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -253,6 +248,5 @@ public class MyProfileController {
 
     private void showStatus(String msg, boolean isError) {
         statusLabel.setText(msg);
-        statusLabel.setStyle(isError ? "-fx-text-fill: #e74c3c;" : "-fx-text-fill: #27ae60;");
     }
 }

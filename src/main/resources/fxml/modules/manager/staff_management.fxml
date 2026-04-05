@@ -3,99 +3,106 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<HBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
-      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<HBox spacing="20.0"
+      styleClass="content-area"
+      stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.hotel.app.controller.modules.manager.StaffManagement">
 
-    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+    <padding><Insets bottom="20" left="20" right="20" top="20"/></padding>
 
+    <!-- LEFT SIDE -->
     <VBox spacing="15" HBox.hgrow="ALWAYS">
-        <Label styleClass="topbar-title" text="Personnel Management" />
+
+        <Label styleClass="topbar-title" text="Personnel Management"/>
 
         <TextField fx:id="searchField"
                    styleClass="input-field"
-                   promptText="Search by name or email..." />
+                   promptText="Search by name or email..."/>
 
-        <TableView fx:id="staffTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+        <TableView fx:id="staffTable" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="60" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="150" text="Name" />
-                <TableColumn fx:id="colEmail" prefWidth="180" text="Email" />
-                <TableColumn fx:id="colRole" prefWidth="100" text="Role" />
-                <TableColumn fx:id="colDept" prefWidth="120" text="Department" />
-                <TableColumn fx:id="colStatus" prefWidth="100" text="Status" />
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colName" text="Name" prefWidth="150"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+                <TableColumn fx:id="colRole" text="Role" prefWidth="100"/>
+                <TableColumn fx:id="colDept" text="Department" prefWidth="120"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
             </columns>
         </TableView>
     </VBox>
 
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
-                style="-fx-background-color: transparent; -fx-background: transparent;"
-                prefWidth="380">
+    <!-- RIGHT SIDE FORM -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="380"
+                style="-fx-background-color: transparent;">
+
         <VBox spacing="20">
-            <padding><Insets right="15" /></padding>
+            <padding><Insets right="15"/></padding>
 
             <VBox spacing="15" styleClass="info-box">
-                <Label styleClass="info-box-title" text="STAFF REGISTRATION" />
 
+                <Label styleClass="info-box-title" text="STAFF REGISTRATION"/>
+
+                <!-- IMPORTANT: RESTORED -->
                 <CheckBox fx:id="hodCheckBox"
                           text="Register as Head of Dept (HOD)"
                           styleClass="field-label"
                           visible="false"
                           managed="false"
-                          onAction="#handleHodCheckboxToggle" />
+                          onAction="#handleHodCheckboxToggle"/>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="FULL NAME" />
-                    <TextField fx:id="nameField" styleClass="input-field" promptText="Enter name" />
+                    <Label text="FULL NAME" styleClass="field-label"/>
+                    <TextField fx:id="nameField" styleClass="input-field"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="EMAIL ADDRESS" />
-                    <TextField fx:id="emailField" styleClass="input-field" promptText="staff@hotel.com" />
+                    <Label text="EMAIL" styleClass="field-label"/>
+                    <TextField fx:id="emailField" styleClass="input-field"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="ROLE" />
-                    <ComboBox fx:id="roleCombo" maxWidth="Infinity" styleClass="input-field" />
+                    <Label text="ROLE" styleClass="field-label"/>
+                    <ComboBox fx:id="roleCombo" styleClass="input-field" maxWidth="Infinity"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="DEPARTMENT" />
-                    <ComboBox fx:id="departmentCombo" maxWidth="Infinity" styleClass="input-field" />
-                    <Label fx:id="deptHintLabel" styleClass="helper-label" visible="false" managed="false"/>
+                    <Label text="DEPARTMENT" styleClass="field-label"/>
+                    <ComboBox fx:id="departmentCombo" styleClass="input-field" maxWidth="Infinity"/>
                 </VBox>
 
+                <!-- IMPORTANT: RESTORED -->
                 <VBox fx:id="managerFieldBox" styleClass="field-box">
-                    <Label styleClass="field-label" text="REPORTING MANAGER" />
-                    <ComboBox fx:id="managerCombo" maxWidth="Infinity" styleClass="input-field" />
-                    <Label fx:id="managerHintLabel" styleClass="helper-label" visible="false" managed="false"/>
+                    <Label text="REPORTING MANAGER" styleClass="field-label"/>
+                    <ComboBox fx:id="managerCombo" styleClass="input-field" maxWidth="Infinity"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="JOB TITLE" />
-                    <TextField fx:id="jobTitleField" styleClass="input-field" />
+                    <Label text="JOB TITLE" styleClass="field-label"/>
+                    <TextField fx:id="jobTitleField" styleClass="input-field"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="SALARY" />
-                    <TextField fx:id="salaryField" styleClass="input-field" />
+                    <Label text="SALARY" styleClass="field-label"/>
+                    <TextField fx:id="salaryField" styleClass="input-field"/>
                 </VBox>
 
                 <VBox styleClass="field-box">
-                    <Label styleClass="field-label" text="TEMP PASSWORD" />
-                    <PasswordField fx:id="passwordField" styleClass="input-field" />
+                    <Label text="PASSWORD" styleClass="field-label"/>
+                    <PasswordField fx:id="passwordField" styleClass="input-field"/>
                 </VBox>
 
-                <Button fx:id="createBtn"
-                        text="CREATE ACCOUNT"
-                        maxWidth="Infinity"
+                <Button text="CREATE ACCOUNT"
                         styleClass="primary-btn"
+                        maxWidth="Infinity"
                         onAction="#handleCreateStaff"/>
 
                 <Label fx:id="formErrorLabel"
                        styleClass="error-label"
                        visible="false"
                        managed="false"/>
+
             </VBox>
         </VBox>
     </ScrollPane>
