@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.MyServicesController"
+      stylesheets="@../../../css/main.css">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <VBox spacing="5">
+        <Label text="Available Rooms" styleClass="stat-label" style="-fx-font-size: 24px;"/>
+        <Label text="Browse available rooms below. To make a booking, go to 'Book a Room'."
+               style="-fx-text-fill: #7f8c8d; -fx-font-size: 13px;"/>
+    </VBox>
+
+    <TableView fx:id="availableRoomsTable" VBox.vgrow="ALWAYS" styleClass="dark-table">
+        <columns>
+            <TableColumn fx:id="colRoomNo" text="Room No" prefWidth="90"/>
+            <TableColumn fx:id="colType" text="Type" prefWidth="160"/>
+            <TableColumn fx:id="colFloor" text="Floor" prefWidth="70"/>
+            <TableColumn fx:id="colCapacity" text="Capacity" prefWidth="90"/>
+            <TableColumn fx:id="colPrice" text="Price/Night" prefWidth="120"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+</VBox>

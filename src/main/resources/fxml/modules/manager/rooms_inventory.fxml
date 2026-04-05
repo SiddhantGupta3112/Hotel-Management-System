@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox fx:id="mainContainer" spacing="20" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.RoomController"
+      stylesheets="@../../../css/main.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Rooms &amp; Inventory Management" styleClass="header-label" />
+
+    <Label fx:id="formFeedbackLabel" visible="false" managed="false" styleClass="feedback-label"/>
+
+    <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab text="Room Types Configuration">
+                <VBox spacing="15">
+                    <padding><Insets top="15"/></padding>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="form-container">
+                        <TextField fx:id="typeNameField" promptText="Type Name (e.g. Deluxe)"/>
+                        <TextField fx:id="capacityField" promptText="Capacity" prefWidth="80"/>
+                        <TextField fx:id="priceField" promptText="Price/Night" prefWidth="100"/>
+                        <TextField fx:id="descriptionField" promptText="Description" HBox.hgrow="ALWAYS"/>
+                        <Button text="Add Type" onAction="#handleAddRoomType" styleClass="button-primary"/>
+                    </HBox>
+
+                    <TableView fx:id="roomTypeTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colTypeName" text="Type Name" prefWidth="150"/>
+                            <TableColumn fx:id="colCapacity" text="Capacity" prefWidth="100"/>
+                            <TableColumn fx:id="colTypePrice" text="Price/Night" prefWidth="120"/>
+                            <TableColumn fx:id="colDescription" text="Description" prefWidth="300"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <Tab text="Individual Rooms">
+                <VBox spacing="15">
+                    <padding><Insets top="15"/></padding>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="form-container">
+                        <TextField fx:id="roomNumberField" promptText="Room No." prefWidth="100"/>
+                        <ComboBox fx:id="roomTypeCombo" promptText="Select Type" prefWidth="200"/>
+                        <TextField fx:id="floorField" promptText="Floor" prefWidth="80"/>
+                        <Button text="Add Room" onAction="#handleAddRoom" styleClass="button-primary"/>
+                        <Separator orientation="VERTICAL"/>
+                        <Button text="Change Status" onAction="#handleChangeStatus" styleClass="button-secondary"/>
+                        <Button text="Delete Room" onAction="#handleDeleteRoom" styleClass="button-danger"/>
+                    </HBox>
+
+                    <TableView fx:id="roomTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colRoomNo" text="Room No" prefWidth="100"/>
+                            <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
+                            <TableColumn fx:id="colFloor" text="Floor" prefWidth="80"/>
+                            <TableColumn fx:id="colPrice" text="Price/Night" prefWidth="120"/>
+                            <TableColumn fx:id="colStatus" text="Status" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

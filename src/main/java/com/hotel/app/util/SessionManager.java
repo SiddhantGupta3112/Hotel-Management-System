@@ -9,6 +9,7 @@ public class SessionManager{
     private static SessionManager sessionManager;
     private User user;
     private List<String> roles;
+    private long customerId = -1;
 
     private SessionManager(){
 
@@ -33,6 +34,7 @@ public class SessionManager{
     public void logout(){
         user = null;
         roles = null;
+        this.customerId = -1;
     }
 
     public User getCurrentUser(){
@@ -53,4 +55,8 @@ public class SessionManager{
         }
         return this.roles.contains(role);
     }
+
+    public void setCustomerId(long id) { this.customerId = id; }
+    public long getCustomerId() { return customerId; }
+    public boolean isCustomer() { return customerId != -1; }
 }

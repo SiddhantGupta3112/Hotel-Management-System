@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.app.controller.BookARoomController" style="-fx-background-color: white;">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #dee2e6;">
+        <Label text="BOOK A NEW STAY" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="SELECT ROOM:" prefWidth="100"/>
+            <ComboBox fx:id="roomCombo" promptText="Choose a room..." HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        </HBox>
+
+        <HBox spacing="20">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Check-In Date"/>
+                <DatePicker fx:id="checkInPicker" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Check-Out Date"/>
+                <DatePicker fx:id="checkOutPicker" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+
+        <Label fx:id="costPreviewLabel" text="Estimated cost: ₹0 for 0 nights" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <Button text="Confirm Booking" onAction="#handleConfirmBooking"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"/>
+
+        <Label fx:id="feedbackLabel" visible="false" managed="false"/>
+    </VBox>
+
+    <Label text="Available Rooms Catalog" style="-fx-font-weight: bold;"/>
+    <TableView fx:id="myRoomsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colRoomNo" text="Room No" prefWidth="80"/>
+            <TableColumn fx:id="colType" text="Type" prefWidth="120"/>
+            <TableColumn fx:id="colFloor" text="Floor" prefWidth="80"/>
+            <TableColumn fx:id="colCapacity" text="Capacity" prefWidth="80"/>
+            <TableColumn fx:id="colPrice" text="Price/Night" prefWidth="100"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>

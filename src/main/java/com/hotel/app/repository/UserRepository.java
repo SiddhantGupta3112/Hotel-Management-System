@@ -11,7 +11,7 @@ public class UserRepository {
 
     public Optional<User> findByEmail(String email) {
         // 1. Updated SQL to include phone_country_code and phone_number
-        String sql = "SELECT user_id, email, name, password_hash, is_active, phone_country_code, phone_number " +
+        String sql =  "SELECT user_id, email, name, password_hash, is_active, phone_country_code, phone_number, created_at " +
                 "FROM USERS WHERE email = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -27,6 +27,10 @@ public class UserRepository {
                     user.setName(rs.getString("name"));
                     user.setPasswordHash(rs.getString("password_hash"));
                     user.setActive(rs.getInt("is_active") == 1);
+                    Timestamp ts = rs.getTimestamp("created_at");
+                    if (ts != null) {
+                        user.setCreatedAt(ts.toLocalDateTime());
+                    }
 
                     // 2. Map the new database columns to the User entity fields
                     user.setPhoneCountryCode(rs.getString("phone_country_code"));
@@ -63,6 +67,8 @@ public class UserRepository {
         return roles;
     }
 
+    
+
     public long save(String email, String passwordHash, String name,
                      String countryCode, String phoneNumber, boolean isActive) {
 
@@ -92,6 +98,84 @@ public class UserRepository {
         }
     }
 
+    public boolean updateUser(long userId, String name, String email,
+                              String phoneCountryCode, String phoneNumber) {
+        // Check if new email is already taken by a different user
+        String checkSql = "SELECT COUNT(*) FROM USERS WHERE LOWER(email) = LOWER(?) AND user_id != ?";
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            // Step 1 — verify email not taken by someone else
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                checkStmt.setString(1, email.trim());
+                checkStmt.setLong(2, userId);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        System.err.println("UserRepository.updateProfile: Email already in use");
+                        return false;
+                    }
+                }
+            }
+
+            // Step 2 — update the user
+            String updateSql = "UPDATE USERS " +
+                    "SET name = ?, email = LOWER(?), " +
+                    "phone_country_code = ?, phone_number = ? " +
+                    "WHERE user_id = ?";
+
+            try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                updateStmt.setString(1, name.trim());
+                updateStmt.setString(2, email.trim());
+                updateStmt.setString(3, phoneCountryCode.trim());
+                updateStmt.setString(4, phoneNumber.trim());
+                updateStmt.setLong(5, userId);
+                return updateStmt.executeUpdate() > 0;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("UserRepository.updateProfile: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    public boolean updatePassword(long userId, String password_hash){
+        String sql = "UPDATE  USERS " +
+                "SET password_hash = ? " +
+                "WHERE user_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, password_hash);
+            stmt.setLong(2, userId);
+
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            handleSQLException("Error updating role", e);
+            return false;
+        }
+    }
+    public boolean deleteUserAccount(long userId) {
+        // Match the procedure name exactly: delete_user
+        String sql = "{call delete_user(?)}";
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setLong(1, userId);
+            stmt.execute();
+            return true; // If no exception was thrown, it worked
+
+        } catch (SQLException e) {
+            handleSQLException("Error executing delete_user procedure", e);
+            return false;
+        }
+    }
+
+    
+
     public boolean updateRole(long userId, String oldRole, String newRole) {
         String sql = "UPDATE USER_ROLES " +
                 "SET role_id = (SELECT role_id FROM ROLES WHERE role_name = ?) " +
@@ -111,6 +195,8 @@ public class UserRepository {
             return false;
         }
     }
+    
+    
 
     public boolean emailExists(String email) {
         String sql = "SELECT 1 FROM USERS WHERE email = ?";
@@ -128,7 +214,7 @@ public class UserRepository {
         }
     }
 
-    public void assignRole(long userId, String role) {
+    public boolean assignRole(long userId, String role) {
         String sql = "INSERT INTO USER_ROLES (user_id, role_id) " +
                 "VALUES (?, (SELECT role_id FROM ROLES WHERE role_name = ?))";
 
@@ -137,12 +223,19 @@ public class UserRepository {
 
             stmt.setLong(1, userId);
             stmt.setString(2, role);
-            stmt.executeUpdate();
+            int assign_role = stmt.executeUpdate();
+
+            if(assign_role > 0){
+                return true;
+            }
 
         } catch (SQLException e) {
             handleSQLException("Error assigning role", e);
         }
+        return false;
     }
+
+    
 
     private void handleSQLException(String message, SQLException e) {
         System.err.println(message + ": " + e.getMessage());

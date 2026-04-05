@@ -82,21 +82,53 @@ public abstract class BaseDashboardController {
                 .replace("&", "")
                 + ".fxml";
 
-        loadModule(fileName);
+        if (fileName.equals("my_profile.fxml")) {
+            loadSharedModule(fileName);
+        } else {
+            loadModule(fileName);
+        }
     }
 
     // ── Module loading ────────────────────────────────────────────────
 
     protected void loadModule(String fxmlFile) {
         try {
-            String path = "/fxml/modules/" + getModulePath() + fxmlFile;
+            String path;
+
+            // ✅ Detect absolute path
+            if (fxmlFile.startsWith("/")) {
+                path = fxmlFile;
+            } else {
+                path = "/fxml/modules/" + getModulePath() + fxmlFile;
+            }
+
+            var resource = getClass().getResource(path);
+
+            // 🔥 DEBUG (keep this for now)
+            System.out.println("Loading FXML: " + path);
+            System.out.println("Resolved URL: " + resource);
+
+            if (resource == null) {
+                throw new RuntimeException("FXML not found: " + path);
+            }
+
+            Node node = FXMLLoader.load(resource);
+            contentPlaceholder.getChildren().setAll(node);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // 🔥 IMPORTANT: see real error
+            Label placeholder = new Label("Failed to load: " + fxmlFile);
+            contentPlaceholder.getChildren().setAll(placeholder);
+        }
+    }
+
+    protected void loadSharedModule(String fxmlFile) {
+        try {
+            String path = "/fxml/modules/shared/" + fxmlFile;
             Node node = FXMLLoader.load(getClass().getResource(path));
             contentPlaceholder.getChildren().setAll(node);
         } catch (Exception e) {
-            System.err.println("Could not load module: " + fxmlFile + " — " + e.getMessage());
-            Label placeholder = new Label("'" + fxmlFile.replace(".fxml", "").replace("_", " ") + "' is coming soon");
-            placeholder.getStyleClass().add("muted-text");
-            contentPlaceholder.getChildren().setAll(placeholder);
+            System.err.println("Could not load shared module: " + fxmlFile + " — " + e.getMessage());
         }
     }
 
