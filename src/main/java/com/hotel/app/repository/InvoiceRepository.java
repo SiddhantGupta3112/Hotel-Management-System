@@ -28,6 +28,88 @@ public class InvoiceRepository {
         return executeQuery(BASE_SELECT + "WHERE c.customer_id = ? ORDER BY i.invoice_id DESC", customerId);
     }
 
+    public int getRevenueByMonths(int months) {
+        String sql = """
+                 SELECT SUM(Total_amount) AS Revenue
+                 FROM Invoices
+                 WHERE Generated_Date >= ?
+                 """;
+
+        LocalDate date = LocalDate.now().minusMonths(months);
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDate(1, java.sql.Date.valueOf(date));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("Revenue"); // or getDouble if Total_amount is decimal
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching revenue for last " + months + " months");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getRevenueByDays(int days) {
+        String sql = """
+                 SELECT SUM(Total_amount) AS Revenue
+                 FROM Invoices
+                 WHERE Generated_Date >= ?
+                 """;
+
+        LocalDate date = LocalDate.now().minusDays(days);
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDate(1, java.sql.Date.valueOf(date));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("Revenue"); // or getDouble if Total_amount is decimal
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching revenue for last " + days + " days");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getRevenueByYears(int years) {
+        String sql = """
+                 SELECT SUM(Total_amount) AS Revenue
+                 FROM Invoices
+                 WHERE Generated_Date >= ?
+                 """;
+
+        LocalDate date = LocalDate.now().minusYears(years);
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDate(1, java.sql.Date.valueOf(date));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("Revenue"); // or getDouble if Total_amount is decimal
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching revenue for last " + years + " years");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
     public boolean invoiceExists(long bookingId) {
         String sql = "SELECT 1 FROM INVOICES WHERE booking_id = ?";
         try (Connection conn = DBConnection.getConnection();

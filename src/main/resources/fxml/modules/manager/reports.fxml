@@ -4,31 +4,117 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+<ScrollPane fitToWidth="true" styleClass="root-pane"
+            stylesheets="@../../../css/main.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hotel.app.controller.modules.manager.ReportsController">
 
-    <HBox spacing="20" VBox.vgrow="ALWAYS">
-        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-            <Label styleClass="stat-label" text="REVENUE TREND (MONTHLY)" />
-            <LineChart fx:id="revenueChart" createSymbols="true" legendVisible="false">
-                <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
-                <yAxis><NumberAxis side="LEFT" /></yAxis>
-            </LineChart>
+    <VBox spacing="16">
+        <VBox.margin><Insets top="24" right="24" bottom="24" left="24"/></VBox.margin>
+
+        <!-- Header -->
+        <VBox spacing="4">
+            <Label text="Reports" styleClass="topbar-title"/>
+            <Label text="Historical analysis and trends" styleClass="muted-text"/>
         </VBox>
 
-        <VBox styleClass="stat-card" prefWidth="350">
-            <Label styleClass="stat-label" text="ROOM TYPE DISTRIBUTION" />
-            <PieChart fx:id="occupancyPieChart" labelsVisible="true" />
-        </VBox>
-    </HBox>
+        <!-- Date Range Filter -->
+        <HBox styleClass="info-box" spacing="12" alignment="CENTER_LEFT">
+            <Label text="FROM" styleClass="stat-label"/>
+            <DatePicker fx:id="fromDatePicker" prefWidth="160"/>
+            <Label text="TO" styleClass="stat-label"/>
+            <DatePicker fx:id="toDatePicker" prefWidth="160"/>
+            <Button text="Apply" styleClass="primary-btn"
+                    onAction="#handleApplyFilter" prefWidth="80"/>
+            <Button text="Reset" styleClass="logout-btn"
+                    onAction="#handleResetFilter" prefWidth="80"/>
+        </HBox>
 
-    <HBox spacing="20" VBox.vgrow="ALWAYS">
-        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-            <Label styleClass="stat-label" text="POPULAR SERVICES" />
-            <BarChart fx:id="servicesChart">
-                <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
-                <yAxis><NumberAxis side="LEFT" /></yAxis>
-            </BarChart>
-        </VBox>
-    </HBox>
-</VBox>
+        <!-- ── Revenue Analysis ── -->
+        <Label text="Revenue Analysis" styleClass="sidebar-title"/>
+
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="8">
+                <Label text="REVENUE TREND (MONTHLY)" styleClass="stat-label"/>
+                <LineChart fx:id="revenueChart"
+                           createSymbols="true"
+                           legendVisible="false"
+                           prefHeight="220"
+                           VBox.vgrow="ALWAYS">
+                    <xAxis><CategoryAxis side="BOTTOM"/></xAxis>
+                    <yAxis><NumberAxis side="LEFT"/></yAxis>
+                </LineChart>
+            </VBox>
+
+            <VBox styleClass="stat-card" prefWidth="300" spacing="8">
+                <Label text="BOOKING STATUS BREAKDOWN" styleClass="stat-label"/>
+                <PieChart fx:id="bookingStatusChart"
+                          labelsVisible="true"
+                          prefHeight="220"
+                          VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+
+        <!-- ── Booking Analysis ── -->
+        <Label text="Booking Analysis" styleClass="sidebar-title"/>
+
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="8">
+                <Label text="MONTHLY BOOKINGS" styleClass="stat-label"/>
+                <BarChart fx:id="bookingsChart"
+                          legendVisible="false"
+                          prefHeight="220"
+                          VBox.vgrow="ALWAYS">
+                    <xAxis><CategoryAxis side="BOTTOM"/></xAxis>
+                    <yAxis><NumberAxis side="LEFT"/></yAxis>
+                </BarChart>
+            </VBox>
+
+            <VBox styleClass="stat-card" prefWidth="300" spacing="8">
+                <Label text="ROOM TYPE DISTRIBUTION" styleClass="stat-label"/>
+                <PieChart fx:id="roomTypeChart"
+                          labelsVisible="true"
+                          prefHeight="220"
+                          VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+
+        <!-- ── Services ── -->
+        <Label text="Services" styleClass="sidebar-title"/>
+
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="8">
+                <Label text="POPULAR SERVICES" styleClass="stat-label"/>
+                <BarChart fx:id="servicesChart"
+                          legendVisible="false"
+                          prefHeight="220"
+                          VBox.vgrow="ALWAYS">
+                    <xAxis><CategoryAxis side="BOTTOM"/></xAxis>
+                    <yAxis><NumberAxis side="LEFT"/></yAxis>
+                </BarChart>
+            </VBox>
+        </HBox>
+
+        <!--
+        ══ Price Forecast (Holt-Winters) — implement later ══
+
+        <Label text="Price Forecast" styleClass="sidebar-title"/>
+
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="8">
+                <Label text="PREDICTED ROOM PRICES — NEXT 30 DAYS" styleClass="stat-label"/>
+                <LineChart fx:id="forecastChart"
+                           createSymbols="false"
+                           legendVisible="true"
+                           prefHeight="260"
+                           VBox.vgrow="ALWAYS">
+                    <xAxis><CategoryAxis side="BOTTOM"/></xAxis>
+                    <yAxis><NumberAxis side="LEFT"/></yAxis>
+                </LineChart>
+            </VBox>
+        </HBox>
+        -->
+
+    </VBox>
+</ScrollPane>

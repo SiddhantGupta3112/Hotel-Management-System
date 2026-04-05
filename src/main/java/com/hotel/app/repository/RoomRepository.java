@@ -31,6 +31,49 @@ public class RoomRepository{
         return rooms;
     }
 
+    public int getRoomCount(){
+        String sql = "SELECT COUNT(room_id) AS Total_rooms FROM Rooms";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt("Total_rooms");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching count of rooms");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getRoomCountByStatus(String status){
+        String sql = """ 
+                        SELECT COUNT(room_id) AS Total_rooms 
+                        FROM Rooms 
+                        WHERE STATUS = ?
+                        """;
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, status);
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt("Total_rooms");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching count of rooms by status");
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 
     public List<Room> findAvailable() {
         List<Room> rooms = new ArrayList<>();

@@ -1,62 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
-      xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.hotel.app.controller.OverviewController">
+<ScrollPane fitToWidth="true" styleClass="root-pane"
+            stylesheets="@../../../css/main.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hotel.app.controller.modules.manager.OverviewController">
 
-    <padding>
-        <Insets bottom="25" left="25" right="25" top="25" />
-    </padding>
+    <VBox spacing="16">
+        <VBox.margin><Insets top="24" right="24" bottom="24" left="24"/></VBox.margin>
 
-    <HBox alignment="CENTER_LEFT" spacing="15.0">
-        <VBox>
-            <Label styleClass="topbar-title" text="Dashboard Overview" />
-            <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;" text="Real-time hotel statistics and revenue" />
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <VBox>
+                <Label text="Dashboard Overview" styleClass="topbar-title"/>
+                <Label text="Real-time hotel statistics and revenue" styleClass="muted-text"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Refresh Data" styleClass="logout-btn"
+                    onAction="#handleRefresh" prefWidth="120"/>
+        </HBox>
+
+        <!-- Row 1: Room Stats -->
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="TOTAL ROOMS" styleClass="stat-label"/>
+                <Label fx:id="totalRoomsLabel" styleClass="stat-value" text="—"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="AVAILABLE" styleClass="stat-label"/>
+                <Label fx:id="availableRoomsLabel" styleClass="stat-value-green" text="—"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="OCCUPIED" styleClass="stat-label"/>
+                <Label fx:id="occupiedRoomsLabel" styleClass="stat-value" text="—"
+                       style="-fx-text-fill: #e94560;"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="MAINTENANCE" styleClass="stat-label"/>
+                <Label fx:id="maintenanceRoomsLabel" styleClass="stat-value" text="—"
+                       style="-fx-text-fill: #f59e0b;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Row 2: Revenue -->
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="TODAY'S REVENUE" styleClass="stat-label"/>
+                <Label fx:id="todayRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="MONTH REVENUE" styleClass="stat-label"/>
+                <Label fx:id="monthRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="YEAR REVENUE" styleClass="stat-label"/>
+                <Label fx:id="yearRevenueLabel" styleClass="stat-value-green" text="₹ —"/>
+            </VBox>
+        </HBox>
+
+        <!-- Row 3: Activity -->
+        <HBox spacing="12">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="TODAY CHECK-INS" styleClass="stat-label"/>
+                <Label fx:id="todayCheckInsLabel" styleClass="stat-value" text="—"
+                       style="-fx-text-fill: #60a5fa;"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="TODAY CHECK-OUTS" styleClass="stat-label"/>
+                <Label fx:id="todayCheckOutsLabel" styleClass="stat-value" text="—"
+                       style="-fx-text-fill: #60a5fa;"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="6">
+                <Label text="PENDING INVOICES" styleClass="stat-label"/>
+                <Label fx:id="pendingInvoicesLabel" styleClass="stat-value" text="—"
+                       style="-fx-text-fill: #f59e0b;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Alerts Section -->
+        <VBox styleClass="info-box" spacing="12">
+            <Label text="ALERTS" styleClass="info-box-title"/>
+            <HBox spacing="12">
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="overdueCheckoutsLabel" styleClass="stat-value" text="—"
+                           style="-fx-text-fill: #f59e0b;"/>
+                    <Label text="Overdue check-outs" styleClass="stat-label"/>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="missedCheckinsLabel" styleClass="stat-value" text="—"
+                           style="-fx-text-fill: #e94560;"/>
+                    <Label text="Missed check-ins" styleClass="stat-label"/>
+                </VBox>
+                <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="pendingServicesLabel" styleClass="stat-value" text="—"
+                           style="-fx-text-fill: #60a5fa;"/>
+                    <Label text="Pending service requests" styleClass="stat-label"/>
+                </VBox>
+            </HBox>
         </VBox>
-        <Region HBox.hgrow="ALWAYS" />
-        <Button onAction="#handleRefresh" styleClass="secondary-btn" text="Refresh Data">
-            <graphic>
-                <Label text="⟳" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
-            </graphic>
-        </Button>
-    </HBox>
 
-    <HBox spacing="20">
-        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
-            <Label styleClass="stat-label" text="TOTAL REVENUE (TODAY)" />
-            <Label fx:id="revenueLabel" styleClass="stat-value-green" text="₹0" />
-        </VBox>
-
-        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
-            <Label styleClass="stat-label" text="OCCUPANCY RATE" />
-            <Label fx:id="occupancyLabel" styleClass="stat-value" text="0%" />
-        </VBox>
-
-        <VBox HBox.hgrow="ALWAYS" styleClass="stat-card">
-            <Label styleClass="stat-label" text="PENDING CHECK-INS" />
-            <Label fx:id="pendingLabel" styleClass="stat-value" text="0" />
-        </VBox>
-    </HBox>
-
-    <VBox spacing="10" VBox.vgrow="ALWAYS" style="-fx-background-color: #1e293b; -fx-padding: 15; -fx-background-radius: 8;">
-        <Label style="-fx-text-fill: #f8fafc; -fx-font-size: 16px; -fx-font-weight: bold;" text="Recent Bookings" />
-
-        <TableView fx:id="recentBookingsTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colCustomer" prefWidth="150" text="Customer" />
-                <TableColumn fx:id="colRoom"     prefWidth="100" text="Room" />
-                <TableColumn fx:id="colStatus"   prefWidth="120" text="Status" />
-                <TableColumn fx:id="colAmount"   prefWidth="120" text="Amount" />
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
     </VBox>
-
-</VBox>
+</ScrollPane>
