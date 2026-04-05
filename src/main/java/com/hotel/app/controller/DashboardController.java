@@ -77,12 +77,13 @@ public class DashboardController extends BaseDashboardController {
      */
     @Override
     protected void handleNavigation(MouseEvent event) {
+        // 1. Always call super first to handle the CSS class switching (highlighting)
+        super.handleNavigation(event);
+
         Label source = (Label) event.getSource();
 
         if (source.getText().equals("My Profile")) {
-            loadSharedModule("my_profile.fxml");  // ✅ CLEAN
-        } else {
-            super.handleNavigation(event);
+            loadSharedModule("my_profile.fxml");
         }
     }
 }
