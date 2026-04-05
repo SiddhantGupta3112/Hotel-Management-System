@@ -1,6 +1,7 @@
 package com.hotel.app.repository;
 
 import com.hotel.app.entity.Department;
+import com.hotel.app.entity.Manager;
 import com.hotel.app.util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -166,5 +167,79 @@ public class DepartmentRepository {
             System.err.println("Error updating HOD: " + e.getMessage());
             return false;
         }
+    }
+
+    public Optional<Manager> getHOD(long deptId) {
+        String sql = """
+            SELECT 
+                D.DEPARTMENT_ID, 
+                D.DEPARTMENT_NAME, 
+                U.NAME AS HOD_NAME,
+                M.JOB_DESCRIPTION AS HOD_TITLE,
+                U.EMAIL AS HOD_EMAIL,
+                D.HEAD_MANAGER_ID
+            FROM DEPARTMENTS D
+            LEFT JOIN MANAGERS M ON D.HEAD_MANAGER_ID = M.MANAGER_ID
+            LEFT JOIN USERS U    ON M.USER_ID = U.USER_ID
+            WHERE D.department_id = ?
+            """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, deptId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Check if an HOD actually exists for this department
+                    long managerId = rs.getLong("HEAD_MANAGER_ID");
+                    if (rs.wasNull()) {
+                        return Optional.empty();
+                    }
+
+                    // Create the Manager object
+                    Manager manager = new Manager();
+                    manager.setManagerId(managerId);
+                    manager.setName(rs.getString("HOD_NAME"));
+                    manager.setJobDescription(rs.getString("HOD_TITLE"));
+                    manager.setEmail(rs.getString("HOD_EMAIL"));
+                    manager.setDepartmentId(rs.getLong("DEPARTMENT_ID"));
+
+                    return Optional.of(manager);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching HOD: " + e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public List<Manager> getAllHODs() {
+        List<Manager> hodList = new ArrayList<>();
+        String sql = """
+        SELECT D.DEPARTMENT_ID, U.NAME AS HOD_NAME, M.JOB_DESCRIPTION AS HOD_TITLE,
+               U.EMAIL AS HOD_EMAIL, D.HEAD_MANAGER_ID
+        FROM DEPARTMENTS D
+        JOIN MANAGERS M ON D.HEAD_MANAGER_ID = M.MANAGER_ID
+        JOIN USERS U ON M.USER_ID = U.USER_ID
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Manager m = new Manager();
+                m.setManagerId(rs.getLong("HEAD_MANAGER_ID"));
+                m.setName(rs.getString("HOD_NAME"));
+                m.setJobDescription(rs.getString("HOD_TITLE"));
+                m.setEmail(rs.getString("HOD_EMAIL"));
+                m.setDepartmentId(rs.getLong("DEPARTMENT_ID"));
+                hodList.add(m);
+            }
+        } catch (SQLException e) {
+            handleSQLException("Error fetching HOD list", e);
+        }
+        return hodList;
     }
 }
