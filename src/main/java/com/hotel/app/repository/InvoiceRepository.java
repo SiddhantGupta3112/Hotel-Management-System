@@ -2,6 +2,7 @@ package com.hotel.app.repository;
 
 import com.hotel.app.entity.Invoice;
 import com.hotel.app.util.DBConnection;
+import com.hotel.app.entity.ServiceCharge;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -115,5 +116,66 @@ public class InvoiceRepository {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<ServiceCharge> findChargesWithDetailsByBookingId(long bookingId) {
+        List<ServiceCharge> charges = new ArrayList<>();
+        String sql = 
+            "SELECT sc.charge_id, sc.request_id, sc.booking_id, sc.amount_charged, " +
+            "       s.name AS service_name, " +
+            "       sr.quantity " +
+            "FROM SERVICE_CHARGES sc " +
+            "JOIN SERVICE_REQUESTS sr ON sc.request_id = sr.request_id " +
+            "JOIN SERVICES s           ON sr.service_id  = s.service_id " +
+            "WHERE sc.booking_id = ? " +
+            "ORDER BY sc.charge_id";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setLong(1, bookingId);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    ServiceCharge sc = new ServiceCharge();
+                    sc.setChargeId(rs.getLong("charge_id"));
+                    sc.setRequestId(rs.getLong("request_id"));
+                    sc.setBookingId(rs.getLong("booking_id"));
+                    sc.setPrice(rs.getDouble("amount_charged"));
+                    sc.setServiceName(rs.getString("service_name"));
+                    sc.setQuantity(rs.getInt("quantity"));
+                    // chargedAt is skipped here as it wasn't in the provided SQL, 
+                    // but can be added if your table has a timestamp column.
+                    charges.add(sc);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return charges;
+    }
+
+    /**
+     * Calculates the total amount already paid by the customer for a specific booking.
+     */
+    public double getTotalPaidForBooking(long bookingId) {
+        // Note: Using COALESCE for standard SQL (NVL is Oracle specific)
+        String sql = "SELECT COALESCE(SUM(amount), 0) FROM PAYMENTS " +
+                     "WHERE booking_id = ? AND status = 'COMPLETED'";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setLong(1, bookingId);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 }

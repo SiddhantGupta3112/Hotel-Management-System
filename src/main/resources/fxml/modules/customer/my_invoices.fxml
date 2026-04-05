@@ -4,42 +4,147 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css"
-      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<HBox spacing="20.0" styleClass="content-area" stylesheets="@../../../css/main.css" 
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
       fx:controller="com.hotel.app.controller.MyInvoicesController">
 
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <HBox alignment="CENTER_LEFT">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Billing &amp; Invoices" />
-        <Region HBox.hgrow="ALWAYS" />
-        <Label style="-fx-text-fill: #7f8c8d;" text="Select an invoice to view payment details" />
-    </HBox>
+    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT">
+            <Label styleClass="section-title" text="My Invoices" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-text-fill: #94a3b8;" text="Select an invoice to view or pay" />
+        </HBox>
 
-    <TableView fx:id="invoicesTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colInvId" prefWidth="70" text="Inv #" />
-            <TableColumn fx:id="colRoom" prefWidth="80" text="Room" />
-            <TableColumn fx:id="colCheckIn" prefWidth="120" text="Check-In" />
-            <TableColumn fx:id="colCheckOut" prefWidth="120" text="Check-Out" />
-            <TableColumn fx:id="colSubtotal" prefWidth="100" text="Subtotal" />
-            <TableColumn fx:id="colTax" prefWidth="80" text="Tax" />
-            <TableColumn fx:id="colTotal" prefWidth="110" text="Total" />
-            <TableColumn fx:id="colDate" prefWidth="120" text="Date Issued" />
-        </columns>
-    </TableView>
-
-    <VBox spacing="10.0" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 5; -fx-border-color: #dee2e6; -fx-border-radius: 5;">
-        <Label fx:id="selectedInvoiceLabel" style="-fx-font-weight: bold; -fx-text-fill: #2980b9;" text="Select an invoice above to see details" />
-
-        <Separator />
-
-        <ScrollPane fitToWidth="true" minHeight="80" style="-fx-background-color: transparent;">
-            <Label fx:id="paymentsLabel" wrapText="true" style="-fx-font-family: 'Monospaced'; -fx-font-size: 13px;"
-                   text="Payment history will appear here..." />
-        </ScrollPane>
+        <TableView fx:id="invoicesTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colInvId" prefWidth="60" text="ID" />
+                <TableColumn fx:id="colRoom" prefWidth="70" text="Room" />
+                <TableColumn fx:id="colCheckIn" prefWidth="100" text="Check-In" />
+                <TableColumn fx:id="colCheckOut" prefWidth="100" text="Check-Out" />
+                <TableColumn fx:id="colTotal" prefWidth="110" text="Total" />
+                <TableColumn fx:id="colDate" prefWidth="100" text="Date" />
+                <TableColumn fx:id="colPayStatus" prefWidth="120" text="Status" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
     </VBox>
 
-</VBox>
+    <ScrollPane fitToWidth="true" prefWidth="420" styleClass="detail-scroll-pane" 
+                HBox.hgrow="NEVER">
+        <VBox fx:id="detailPanel" spacing="15.0" styleClass="detail-panel">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f8fafc;" text="Invoice Details" />
+
+            <VBox styleClass="info-box">
+                <Label styleClass="info-box-title" text="BOOKING INFORMATION" />
+                <HBox>
+                    <Label styleClass="stat-label" text="Booking ID:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailBookingId" style="-fx-text-fill: #e2e8f0;" text="#0" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Guest Name:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailGuestName" style="-fx-text-fill: #e2e8f0;" text="Name" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Room Number:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailRoom" style="-fx-text-fill: #e2e8f0;" text="0" />
+                </HBox>
+                <Separator style="-fx-opacity: 0.2;" />
+                <HBox>
+                    <Label styleClass="stat-label" text="Stay Duration:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailNights" style="-fx-text-fill: #e2e8f0;" text="0 nights" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Check-In:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailCheckIn" style="-fx-text-fill: #e2e8f0;" text="Date" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Check-Out:" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailCheckOut" style="-fx-text-fill: #e2e8f0;" text="Date" />
+                </HBox>
+            </VBox>
+
+            <VBox styleClass="info-box">
+                <Label styleClass="info-box-title" text="CHARGES BREAKDOWN" />
+                <HBox>
+                    <Label styleClass="stat-label" text="Room Charge" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailRoomCharge" style="-fx-text-fill: #e2e8f0;" text="₹0.00" />
+                </HBox>
+                
+                <VBox fx:id="serviceChargesBox" spacing="5" />
+                
+                <Separator style="-fx-padding: 5 0 5 0;" />
+                
+                <HBox>
+                    <Label styleClass="stat-label" text="Subtotal" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailSubtotal" style="-fx-text-fill: #e2e8f0;" text="₹0.00" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Tax (18%)" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailTax" style="-fx-text-fill: #e2e8f0;" text="₹0.00" />
+                </HBox>
+                <HBox style="-fx-padding: 5 0 0 0;">
+                    <Label style="-fx-font-weight: bold; -fx-text-fill: #3498db; -fx-font-size: 15px;" text="Grand Total" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailGrandTotal" style="-fx-font-weight: bold; -fx-text-fill: #3498db; -fx-font-size: 15px;" text="₹0.00" />
+                </HBox>
+            </VBox>
+
+            <VBox styleClass="info-box">
+                <Label styleClass="info-box-title" text="PAYMENT SUMMARY" />
+                <HBox>
+                    <Label styleClass="stat-label" text="Amount Paid" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailAmountPaid" style="-fx-text-fill: #27ae60;" text="₹0.00" />
+                </HBox>
+                <HBox>
+                    <Label styleClass="stat-label" text="Balance Due" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="detailBalanceDue" style="-fx-font-weight: bold;" text="₹0.00" />
+                </HBox>
+            </VBox>
+
+            <VBox styleClass="info-box">
+                <Label styleClass="info-box-title" text="PAYMENT HISTORY" />
+                <VBox fx:id="paymentHistoryBox" spacing="5" />
+            </VBox>
+
+            <VBox fx:id="paymentFormBox" spacing="12" styleClass="info-box" style="-fx-border-color: #3498db; -fx-border-width: 1;">
+                <Label styleClass="info-box-title" style="-fx-text-fill: #3498db;" text="MAKE A PAYMENT" />
+                
+                <VBox spacing="5">
+                    <Label styleClass="stat-label" text="Payment Method" />
+                    <ComboBox fx:id="payMethodCombo" maxWidth="Infinity" promptText="Select Method" styleClass="input-field" />
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label styleClass="stat-label" text="Amount (₹)" />
+                    <TextField fx:id="payAmountField" styleClass="input-field" />
+                </VBox>
+
+                <Button fx:id="payButton" maxWidth="Infinity" onAction="#handlePay" styleClass="primary-btn" text="Pay Now" />
+                
+                <Label fx:id="payFeedbackLabel" alignment="CENTER" maxWidth="Infinity" text="Feedback" visible="false" managed="false" />
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+</HBox>
