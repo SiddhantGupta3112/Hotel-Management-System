@@ -2,6 +2,7 @@ package com.hotel.app.service;
 
 import com.hotel.app.entity.Invoice;
 import com.hotel.app.entity.Payment;
+import com.hotel.app.entity.ServiceCharge;
 import com.hotel.app.repository.BookingRepository;
 import com.hotel.app.repository.InvoiceRepository;
 import com.hotel.app.repository.PaymentRepository;
@@ -48,6 +49,15 @@ public class BillingService {
 
         boolean success = paymentRepo.save(bookingId, methodId, amount);
         return success ? Result.success(null) : Result.failure("Database error while recording payment.");
+    }
+
+    public List<ServiceCharge> getServiceChargesForBooking(long bookingId) {
+        return invoiceRepo.findChargesWithDetailsByBookingId(bookingId);
+    }
+
+
+    public double getTotalPaidForBooking(long bookingId) {
+        return invoiceRepo.getTotalPaidForBooking(bookingId);
     }
 
 
