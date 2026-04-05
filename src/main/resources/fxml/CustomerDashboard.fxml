@@ -13,7 +13,7 @@
             <VBox fx:id="navContainer" spacing="2" VBox.vgrow="ALWAYS">
                 <Label fx:id="navOverview" onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="My Bookings" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Book a Room" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Availaible Rooms" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Services" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Invoices" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
             </VBox>
