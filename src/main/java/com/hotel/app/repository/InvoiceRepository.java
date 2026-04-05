@@ -48,7 +48,7 @@ public class InvoiceRepository {
 
         String calcSql =
                 "SELECT (b.check_out_date - b.check_in_date) * rt.price_per_night + " +
-                        "COALESCE((SELECT SUM(su.total_price) FROM SERVICE_USAGE su WHERE su.booking_id = b.booking_id), 0) AS subtotal " +
+                        "COALESCE((SELECT SUM(sc.amount_charged) FROM SERVICE_CHARGES sc WHERE sc.booking_id = b.booking_id), 0) AS subtotal " +
                         "FROM BOOKINGS b " +
                         "JOIN ROOMS r ON b.room_id = r.room_id " +
                         "JOIN ROOM_TYPES rt ON r.room_type_id = rt.room_type_id " +
