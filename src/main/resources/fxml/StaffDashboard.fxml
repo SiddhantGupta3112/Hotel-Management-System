@@ -12,7 +12,6 @@
             </VBox>
             <VBox fx:id="navContainer" spacing="2" VBox.vgrow="ALWAYS">
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="My Tasks" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Service Queue" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Room Status" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Completed Tasks" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
