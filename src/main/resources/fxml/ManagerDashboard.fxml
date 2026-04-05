@@ -35,7 +35,7 @@
                 </VBox>
                 <Label fx:id="avatarLabel" styleClass="avatar-circle" text="M" />
             </HBox>
-            <StackPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS" />
+            <AnchorPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS" />
         </VBox>
     </center>
 </BorderPane>

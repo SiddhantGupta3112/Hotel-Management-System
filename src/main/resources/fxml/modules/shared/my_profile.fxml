@@ -72,26 +72,30 @@
               spacing="15"
               styleClass="card">
 
-            <Label text="CUSTOMER PROFILE" styleClass="section-title-orange"/>
+            <Label text="CUSTOMER PROFILE" styleClass="section-title-red"/>
 
             <GridPane hgap="20" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
 
-                <VBox spacing="5">
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <Label text="Residential Address" styleClass="field-label"/>
                     <TextField fx:id="addressField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="5">
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <Label text="Nationality" styleClass="field-label"/>
                     <TextField fx:id="nationalityField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="5">
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <Label text="ID / Passport Number" styleClass="field-label"/>
                     <TextField fx:id="idProofField" styleClass="form-control"/>
                 </VBox>
 
-                <VBox spacing="10">
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <Label text="Loyalty Status" styleClass="field-label"/>
                     <Label fx:id="loyaltyPointsLabel" styleClass="loyalty-label"/>
                 </VBox>
@@ -171,7 +175,7 @@
                 <Button text="Request Account Deletion"
                         onAction="#handleDeleteAccount"
                         styleClass="danger-outline-button"/>
-                <Label fx:id="statusLabel"/>
+                <Label fx:id="statusLabel" styleClass="status-label"/>
             </HBox>
         </VBox>
 

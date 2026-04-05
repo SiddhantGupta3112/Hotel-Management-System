@@ -3,17 +3,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<HBox spacing="20.0"
-      styleClass="content-area"
-      stylesheets="@../../../css/main.css"
-      xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.hotel.app.controller.modules.manager.StaffManagement">
-
-    <padding><Insets bottom="20" left="20" right="20" top="20"/></padding>
+<SplitPane dividerPositions="0.62"
+           styleClass="content-area"
+           stylesheets="@../../../css/main.css"
+           xmlns="http://javafx.com/javafx/17"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.hotel.app.controller.modules.manager.StaffManagement"
+           style="-fx-background-color: #1a1a2e; -fx-border-color: transparent;">
 
     <!-- LEFT SIDE -->
-    <VBox spacing="15" HBox.hgrow="ALWAYS">
+    <VBox spacing="15" style="-fx-background-color: #1a1a2e; -fx-padding: 20;">
 
         <Label styleClass="topbar-title" text="Personnel Management"/>
 
@@ -34,17 +33,17 @@
     </VBox>
 
     <!-- RIGHT SIDE FORM -->
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="380"
-                style="-fx-background-color: transparent;">
+    <ScrollPane fitToWidth="true"
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+                style="-fx-background-color: #1a1a2e; -fx-background: #1a1a2e;">
 
-        <VBox spacing="20">
-            <padding><Insets right="15"/></padding>
+        <VBox spacing="20" style="-fx-padding: 20 15 20 5;">
 
             <VBox spacing="15" styleClass="info-box">
 
                 <Label styleClass="info-box-title" text="STAFF REGISTRATION"/>
 
-                <!-- IMPORTANT: RESTORED -->
                 <CheckBox fx:id="hodCheckBox"
                           text="Register as Head of Dept (HOD)"
                           styleClass="field-label"
@@ -72,7 +71,6 @@
                     <ComboBox fx:id="departmentCombo" styleClass="input-field" maxWidth="Infinity"/>
                 </VBox>
 
-                <!-- IMPORTANT: RESTORED -->
                 <VBox fx:id="managerFieldBox" styleClass="field-box">
                     <Label text="REPORTING MANAGER" styleClass="field-label"/>
                     <ComboBox fx:id="managerCombo" styleClass="input-field" maxWidth="Infinity"/>
@@ -106,4 +104,4 @@
             </VBox>
         </VBox>
     </ScrollPane>
-</HBox>
+</SplitPane>

@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public abstract class BaseDashboardController {
 
-    @FXML protected StackPane contentPlaceholder;
+    @FXML protected AnchorPane contentPlaceholder;
     @FXML protected Label     pageTitle;
     @FXML protected Label     userNameLabel;
     @FXML protected Label     userRoleLabel;
@@ -122,6 +122,12 @@ public abstract class BaseDashboardController {
             }
 
             Node node = FXMLLoader.load(resource);
+
+            AnchorPane.setTopAnchor(node, 0.0);
+            AnchorPane.setBottomAnchor(node, 0.0);
+            AnchorPane.setLeftAnchor(node, 0.0);
+            AnchorPane.setRightAnchor(node, 0.0);
+
             contentPlaceholder.getChildren().setAll(node);
 
         } catch (Exception e) {
@@ -135,6 +141,12 @@ public abstract class BaseDashboardController {
         try {
             String path = "/fxml/modules/shared/" + fxmlFile;
             Node node = FXMLLoader.load(getClass().getResource(path));
+
+            AnchorPane.setTopAnchor(node, 0.0);
+            AnchorPane.setBottomAnchor(node, 0.0);
+            AnchorPane.setLeftAnchor(node, 0.0);
+            AnchorPane.setRightAnchor(node, 0.0);
+
             contentPlaceholder.getChildren().setAll(node);
         } catch (Exception e) {
             System.err.println("Could not load shared module: " + fxmlFile + " — " + e.getMessage());
