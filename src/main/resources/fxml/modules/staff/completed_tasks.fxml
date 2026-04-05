@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="16" styleClass="content-area" stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.modules.staff.CompletedTasksController">
+
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label styleClass="topbar-title" text="Completed Tasks" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button styleClass="logout-btn" text="&#x21BB; Refresh" onAction="#handleRefresh" />
+    </HBox>
+
+    <!-- Summary -->
+    <HBox spacing="12">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+            <Label styleClass="stat-label" text="YOUR COMPLETED TASKS" />
+            <Label fx:id="totalServedLabel" styleClass="stat-value" text="Tasks completed: 0" />
+        </VBox>
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+            <Label styleClass="stat-label" text="TOTAL BILLED" />
+            <Label fx:id="totalEarnedLabel" styleClass="stat-value-green" text="Total billed: ₹ 0" />
+        </VBox>
+    </HBox>
+
+    <!-- Table -->
+    <VBox styleClass="info-box" VBox.vgrow="ALWAYS" spacing="10">
+        <Label styleClass="info-box-title" text="SERVICES YOU HAVE COMPLETED" />
+        <TableView fx:id="completedTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colRoom"     text="Room"     prefWidth="80" />
+                <TableColumn fx:id="colGuest"    text="Guest"    prefWidth="140" />
+                <TableColumn fx:id="colService"  text="Service"  prefWidth="160" />
+                <TableColumn fx:id="colQty"      text="Qty"      prefWidth="50" />
+                <TableColumn fx:id="colCharge"   text="Charge"   prefWidth="90" />
+                <TableColumn fx:id="colServedAt" text="Served at" prefWidth="140" />
+            </columns>
+            <placeholder>
+                <Label styleClass="muted-text" text="No completed tasks yet" />
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>

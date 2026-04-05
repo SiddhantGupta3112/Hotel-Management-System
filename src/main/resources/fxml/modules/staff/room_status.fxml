@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="16" styleClass="content-area" stylesheets="@../../../css/main.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.hotel.app.controller.modules.staff.RoomStatusController">
+
+    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+
+    <!-- Header row -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label styleClass="topbar-title" text="Room Status" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button styleClass="logout-btn" text="&#x21BB; Refresh" onAction="#handleRefresh" />
+    </HBox>
+
+    <!-- Summary stat cards -->
+    <HBox spacing="12">
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+            <Label styleClass="stat-label" text="TOTAL ROOMS" />
+            <Label fx:id="totalLabel" styleClass="stat-value" text="—" />
+        </VBox>
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+            <Label styleClass="stat-label" text="AVAILABLE" />
+            <Label fx:id="availableLabel" styleClass="stat-value-green" text="—" />
+        </VBox>
+        <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" spacing="4">
+            <Label styleClass="stat-label" text="OCCUPIED" />
+            <Label fx:id="occupiedLabel" styleClass="stat-value" text="—" />
+        </VBox>
+    </HBox>
+
+    <!-- Rooms table -->
+    <VBox styleClass="info-box" VBox.vgrow="ALWAYS" spacing="10">
+        <Label styleClass="info-box-title" text="ALL ROOMS" />
+        <TableView fx:id="roomTable" styleClass="dark-table" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colRoomNo" text="Room #"   prefWidth="80" />
+                <TableColumn fx:id="colType"   text="Type"     prefWidth="160" />
+                <TableColumn fx:id="colFloor"  text="Floor"    prefWidth="70" />
+                <TableColumn fx:id="colPrice"  text="Rate"     prefWidth="140" />
+                <TableColumn fx:id="colStatus" text="Status"   prefWidth="120" />
+            </columns>
+            <placeholder>
+                <Label styleClass="muted-text" text="No rooms found" />
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>

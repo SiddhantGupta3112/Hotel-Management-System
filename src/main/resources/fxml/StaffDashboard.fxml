@@ -2,7 +2,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="root-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.app.controller.StaffDashboardController">
+<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="root-pane"
+            stylesheets="@../css/main.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hotel.app.controller.StaffDashboardController">
     <left>
         <VBox prefWidth="220.0" styleClass="sidebar">
             <VBox styleClass="sidebar-brand">
@@ -12,7 +16,7 @@
             </VBox>
             <VBox fx:id="navContainer" spacing="2" VBox.vgrow="ALWAYS">
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="My Tasks" />
-                <Label onMouseClicked="#handleNavigation" styleClass="nav-item-active" text="Service Queue" />
+                <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Service Queue" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Room Status" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="Completed Tasks" />
                 <Label onMouseClicked="#handleNavigation" styleClass="nav-item" text="My Profile" />
@@ -29,7 +33,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <VBox alignment="CENTER_RIGHT">
                     <Label fx:id="userNameLabel" styleClass="topbar-username" text="Staff Name" />
-                    <Label fx:id="userRoleLabel" styleClass="topbar-role" text="HOUSEKEEPING" />
+                    <Label fx:id="userRoleLabel" styleClass="topbar-role" text="STAFF" />
                 </VBox>
                 <Label fx:id="avatarLabel" styleClass="avatar-circle" text="S" />
             </HBox>
